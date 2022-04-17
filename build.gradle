@@ -1,0 +1,32 @@
+plugins {
+    id 'org.jetbrains.kotlin.js' version '1.6.20'
+}
+
+group = 'me.julius'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    doodle_version = '0.7.2' // <--- Latest Doodle version
+}
+
+kotlin {
+    js(IR) {
+        browser()
+        binaries.executable()
+    }
+
+    dependencies {
+        implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0"
+        implementation "io.nacular.doodle:core:$doodle_version"
+        implementation "io.nacular.doodle:browser:$doodle_version"
+
+        // Optional
+        implementation "io.nacular.doodle:controls:$doodle_version"
+        implementation "io.nacular.doodle:animation:$doodle_version"
+        implementation "io.nacular.doodle:themes:$doodle_version"
+    }
+}
