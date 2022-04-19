@@ -8,6 +8,7 @@ import io.nacular.doodle.drawing.ColorPaint
 import io.nacular.doodle.geometry.Point
 import io.nacular.doodle.text.StyledText
 import kotlinx.coroutines.launch
+import me.julius.apps.viktor.core.AutoSize.sp
 import me.julius.apps.viktor.core.Page
 import me.julius.apps.viktor.core.PageContext
 
@@ -18,7 +19,7 @@ class NotFoundPage(context: PageContext) : Page(context) {
                 Label(
                     StyledText(
                         "404", fontLoader {
-                            size = 85
+                            size = 85.sp
                             family = "Arial, Helvetica, sans-serif"
                         }, foreground = ColorPaint(Color(0xe79434u))
                     )
@@ -27,13 +28,13 @@ class NotFoundPage(context: PageContext) : Page(context) {
             plusAssign(
                 Label(
                     StyledText("NOT FOUND", fontLoader {
-                        size = 24
+                        size = 24.sp
                         family = "Arial, Helvetica, sans-serif"
                     })
                 )
             )
             layout = Layout.simpleLayout {
-                val spacing = 10
+                val spacing = 10.sp
                 val allSpacing = spacing * (it.children.size - 1)
                 val childrenHeight = it.children.sumOf { child -> child.height }
                 val contentHeight = allSpacing + childrenHeight

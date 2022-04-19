@@ -19,6 +19,7 @@ import kotlinx.coroutines.launch
 import me.julius.apps.viktor.FONT_FAMILY
 import me.julius.apps.viktor.ViktorColors.primaryColor
 import me.julius.apps.viktor.ViktorColors.secondDarkColor
+import me.julius.apps.viktor.core.AutoSize.sp
 import me.julius.apps.viktor.core.Fragment
 import me.julius.apps.viktor.core.PageContext
 import me.julius.apps.viktor.hoverColor
@@ -26,7 +27,7 @@ import me.julius.apps.viktor.layout.LinearLayout
 
 class HeaderFragment(context: PageContext) : Fragment(context) {
     companion object {
-        const val shadowSize = 8.0
+        private val shadowSize = 8.0.sp
     }
 
     private val shadowPaint by lazy {
@@ -41,18 +42,18 @@ class HeaderFragment(context: PageContext) : Fragment(context) {
             val txtTitle = Label(
                 StyledText(
                     "Viktor Rack & Warehouse Equipment Manufacturing Co., Ltd.", fontLoader {
-                        size = 35
+                        size = 35.sp
                         family = FONT_FAMILY
                     }, foreground = ColorPaint(Color(primaryColor))
                 )
             )
             val tabMenu = container {
                 listOf("HOME", "ABOUT VIKTOR", "PRODUCTS", "PROJECT CASE", "CONTACT US").map {
-                    mainScope.launch { // FIXME: 协程设计缺陷, 刷新页面时异步渲染造成局部闪烁
+                    mainScope.launch { // FIXME: 实例化控件依赖协程的设计有缺陷, 造成刷新页面时局部闪烁
                         this@container += Label(
                             StyledText(
                                 it, fontLoader {
-                                    size = 16
+                                    size = 16.sp
                                     family = FONT_FAMILY
                                 }, foreground = ColorPaint(Color(secondDarkColor))
                             )
@@ -71,9 +72,9 @@ class HeaderFragment(context: PageContext) : Fragment(context) {
             layout = constrain(txtTitle, tabMenu) { _txtTitle, _tabMenu ->
                 val marginHorizontal = (parent.width * 0.1)
                 _txtTitle.left = parent.left + marginHorizontal
-                _txtTitle.top = parent.top + 38
+                _txtTitle.top = parent.top + 38.sp
                 _tabMenu.left = _txtTitle.left
-                _tabMenu.top = _txtTitle.bottom + 12
+                _tabMenu.top = _txtTitle.bottom + 12.sp
                 _tabMenu.right = _txtTitle.right
                 _tabMenu.bottom = parent.bottom - shadowSize
             }

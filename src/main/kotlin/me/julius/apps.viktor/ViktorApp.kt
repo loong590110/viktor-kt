@@ -8,11 +8,13 @@ import io.nacular.doodle.event.PointerEvent
 import io.nacular.doodle.event.PointerListener
 import io.nacular.doodle.text.StyledText
 import me.julius.apps.viktor.core.ApplicationContext
+import me.julius.apps.viktor.core.AutoSize
 import kotlin.js.Date
 
 class ViktorApp(context: ApplicationContext) : Application {
     init {
         println("Started at ${Date().toLocaleString()}")
+        AutoSize.initialize(1536.0)
         context.themeManager.selected = context.theme
         context.router.routes = {
             when (it) {
