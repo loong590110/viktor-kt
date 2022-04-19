@@ -4,15 +4,14 @@ import io.nacular.doodle.controls.buttons.PushButton
 import io.nacular.doodle.core.plusAssign
 import io.nacular.doodle.layout.constant
 import io.nacular.doodle.layout.constrain
-import kotlinx.coroutines.CoroutineScope
 import me.julius.apps.viktor.core.Page
 import me.julius.apps.viktor.core.PageContext
-import me.julius.apps.viktor.fragments.Header
+import me.julius.apps.viktor.fragments.HeaderFragment
 
-class HomePage(context: PageContext, mainScope: CoroutineScope) : Page(context) {
+class HomePage(context: PageContext) : Page(context) {
     init {
         val name = context.arguments["name"]
-        val header = Header(mainScope, fontLoader)
+        val header = HeaderFragment(context)
         val btnClick = PushButton("Click $name")
         this += listOf(btnClick, header)
         layout = constrain(btnClick, header) { _btnClick, _header ->

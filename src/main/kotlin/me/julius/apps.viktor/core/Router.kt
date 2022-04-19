@@ -90,7 +90,7 @@ class Router(private val context: ApplicationContext) {
         return args.split('&').associate {
             val pair = it.split('=')
             if (pair.size != 2) {
-                throw IllegalArgumentException("URL参数格式错误！")
+                throw IllegalArgumentException("Invalid url arguments format.")
             }
             pair[0] to pair[1]
         }

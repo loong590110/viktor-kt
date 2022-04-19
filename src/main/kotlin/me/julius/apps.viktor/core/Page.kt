@@ -3,11 +3,13 @@ package me.julius.apps.viktor.core
 import io.nacular.doodle.core.Container
 import io.nacular.doodle.drawing.FontLoader
 import io.nacular.doodle.geometry.Size
+import kotlinx.coroutines.CoroutineScope
 
 open class Page(val context: PageContext) : Container(), Context {
-    override val applicationContext: ApplicationContext = context.applicationContext
-    override val fontLoader: FontLoader = context.fontLoader
-    override val router: Router = context.router
+    override val applicationContext: ApplicationContext get() = context.applicationContext
+    override val mainScope: CoroutineScope get() = context.mainScope
+    override val fontLoader: FontLoader get() = context.fontLoader
+    override val router: Router get() = context.router
     var fixedSize: Size? = null
         set(value) {
             if (value == null) {

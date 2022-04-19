@@ -7,12 +7,11 @@ import io.nacular.doodle.drawing.Color
 import io.nacular.doodle.drawing.ColorPaint
 import io.nacular.doodle.geometry.Point
 import io.nacular.doodle.text.StyledText
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import me.julius.apps.viktor.core.Page
 import me.julius.apps.viktor.core.PageContext
 
-class NotFoundPage(context: PageContext, mainScope: CoroutineScope) : Page(context) {
+class NotFoundPage(context: PageContext) : Page(context) {
     init {
         mainScope.launch {
             plusAssign(

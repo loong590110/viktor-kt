@@ -1,20 +1,17 @@
 package me.julius.apps.viktor
 
 import io.nacular.doodle.controls.buttons.PushButton
-import io.nacular.doodle.core.Container
 import io.nacular.doodle.core.plusAssign
-import io.nacular.doodle.drawing.FontLoader
 import io.nacular.doodle.geometry.Point
 import io.nacular.doodle.layout.constant
 import io.nacular.doodle.layout.constrain
-import kotlinx.coroutines.CoroutineScope
 import me.julius.apps.viktor.core.Page
 import me.julius.apps.viktor.core.PageContext
-import me.julius.apps.viktor.fragments.Header
+import me.julius.apps.viktor.fragments.HeaderFragment
 
-class DetailPage(context: PageContext, mainScope: CoroutineScope) : Page(context) {
+class DetailPage(context: PageContext) : Page(context) {
     init {
-        val header = Header(mainScope, fontLoader)
+        val header = HeaderFragment(context)
         val btnClick = PushButton("close detail page").apply {
             position = Point(150, 150)
         }
