@@ -18,8 +18,7 @@ fun main() {
                 display = instance(),
                 themeManager = instance(),
                 theme = instance(),
-                fontLoader = instance(),
-                textMetrics = instance()
+                fontLoader = instance()
             )
         )
     }

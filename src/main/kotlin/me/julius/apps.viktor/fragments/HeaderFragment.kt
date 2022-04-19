@@ -1,5 +1,7 @@
 package me.julius.apps.viktor.fragments
 
+import io.nacular.doodle.controls.text.Label
+import io.nacular.doodle.core.container
 import io.nacular.doodle.core.plusAssign
 import io.nacular.doodle.drawing.Canvas
 import io.nacular.doodle.drawing.Color
@@ -10,10 +12,17 @@ import io.nacular.doodle.geometry.Point
 import io.nacular.doodle.geometry.Rectangle
 import io.nacular.doodle.layout.constrain
 import io.nacular.doodle.text.StyledText
+import io.nacular.doodle.utils.HorizontalAlignment
+import io.nacular.doodle.utils.Orientation
+import io.nacular.doodle.utils.VerticalAlignment
 import kotlinx.coroutines.launch
+import me.julius.apps.viktor.FONT_FAMILY
+import me.julius.apps.viktor.ViktorColors.primaryColor
+import me.julius.apps.viktor.ViktorColors.secondDarkColor
 import me.julius.apps.viktor.core.Fragment
 import me.julius.apps.viktor.core.PageContext
-import me.julius.apps.viktor.widgets.AutoSizeLabel
+import me.julius.apps.viktor.hoverColor
+import me.julius.apps.viktor.layout.LinearLayout
 
 class HeaderFragment(context: PageContext) : Fragment(context) {
     companion object {
@@ -29,29 +38,50 @@ class HeaderFragment(context: PageContext) : Fragment(context) {
     init {
         mainScope.launch {
             backgroundColor = Color.White opacity 1.0f
-            val txtTitle = AutoSizeLabel(
+            val txtTitle = Label(
                 StyledText(
                     "Viktor Rack & Warehouse Equipment Manufacturing Co., Ltd.", fontLoader {
                         size = 35
-                        family = "Arial, Helvetica, sans-serif"
-                    }, foreground = ColorPaint(Color(0xe79434u))
+                        family = FONT_FAMILY
+                    }, foreground = ColorPaint(Color(primaryColor))
                 )
-            ).apply {
-                wrapsWords = true
+            )
+            val tabMenu = container {
+                listOf("HOME", "ABOUT VIKTOR", "PRODUCTS", "PROJECT CASE", "CONTACT US").map {
+                    mainScope.launch { // FIXME: 协程设计缺陷, 刷新页面时异步渲染造成局部闪烁
+                        this@container += Label(
+                            StyledText(
+                                it, fontLoader {
+                                    size = 16
+                                    family = FONT_FAMILY
+                                }, foreground = ColorPaint(Color(secondDarkColor))
+                            )
+                        ).apply {
+                            hoverColor = Color(secondDarkColor) to Color(primaryColor)
+                        }
+                    }
+                }
+                layout = LinearLayout(
+                    orientation = Orientation.Horizontal,
+                    horizontalAlignment = HorizontalAlignment.Center,
+                    verticalAlignment = VerticalAlignment.Middle
+                )
             }
-            this@HeaderFragment += listOf(txtTitle)
-            layout = constrain(txtTitle) { _txtTitle ->
+            this@HeaderFragment += listOf(txtTitle, tabMenu)
+            layout = constrain(txtTitle, tabMenu) { _txtTitle, _tabMenu ->
                 val marginHorizontal = (parent.width * 0.1)
                 _txtTitle.left = parent.left + marginHorizontal
-                _txtTitle.top = parent.top + marginHorizontal * 0.25
-                _txtTitle.right = parent.right - marginHorizontal
-                _txtTitle.bottom = parent.bottom - 50
+                _txtTitle.top = parent.top + 38
+                _tabMenu.left = _txtTitle.left
+                _tabMenu.top = _txtTitle.bottom + 12
+                _tabMenu.right = _txtTitle.right
+                _tabMenu.bottom = parent.bottom - shadowSize
             }
         }
     }
 
     override fun render(canvas: Canvas) {
-        canvas.rect(Rectangle(0.0, 0.0, width, height - shadowSize), ColorPaint(backgroundColor ?: Color.Transparent))
+        super.render(canvas)
         if (backgroundColor?.opacity == 1f) {
             canvas.rect(Rectangle(0.0, height - shadowSize, width, shadowSize), shadowPaint)
         }

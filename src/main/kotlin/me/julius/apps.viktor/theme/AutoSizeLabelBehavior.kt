@@ -39,11 +39,10 @@ class AutoSizeLabelBehavior(
                 return label.size
             }
             job = coroutineScope.launch {
-                val data = label.styledText.toList()
-                if (data.size > 1) {
+                if (label.styledText.count > 1) {
                     throw IllegalStateException("Unsupported multiple of style text")
                 }
-                val (text, style) = data[0]
+                val (text, style) = label.styledText.toList()[0]
                 var fontSize = style.font?.size ?: label.maxFontSize
                 label.maxFontSize = max(fontSize, label.maxFontSize)
                 var size = super.measureText(label)
