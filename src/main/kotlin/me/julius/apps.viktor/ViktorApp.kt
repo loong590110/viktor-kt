@@ -38,19 +38,21 @@ object ViktorColors {
     val secondDarkColor = 0x666666u
 }
 
-var Label.hoverColor: Pair<Color, Color>
+var Label.hoverColor: Color
     get() = throw UnsupportedOperationException()
     set(value) {
-        val (text, style) = styledText.toList()[0]
-        val normalStyleText = StyledText(
-            text, style.font, ColorPaint(value.first), style.background, style.decoration
-        )
-        val hoverStyleText = StyledText(
-            text, style.font, ColorPaint(value.second), style.background, style.decoration
-        )
+        val normalStyleText = styledText
+        var hoverStyleText: StyledText? = null
+        styledText.map { (text, style) ->
+            StyledText(
+                text, style.font, ColorPaint(value), style.background, style.decoration
+            )
+        }.forEach {
+            hoverStyleText = if (hoverStyleText == null) it else hoverStyleText!!..it
+        }
         pointerChanged += object : PointerListener {
             override fun entered(event: PointerEvent) {
-                styledText = hoverStyleText
+                styledText = hoverStyleText!!
             }
 
             override fun exited(event: PointerEvent) {

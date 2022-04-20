@@ -58,7 +58,7 @@ class HeaderFragment(context: PageContext) : Fragment(context) {
                                 }, foreground = ColorPaint(Color(secondDarkColor))
                             )
                         ).apply {
-                            hoverColor = Color(secondDarkColor) to Color(primaryColor)
+                            hoverColor = Color(primaryColor)
                         }
                     }
                 }

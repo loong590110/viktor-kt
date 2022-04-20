@@ -19,7 +19,7 @@ class DetailPage(context: PageContext) : Page(context) {
             _btnClick.width = constant(186.0.sp)
             _btnClick.height = constant(36.0.sp)
             _btnClick.centerX = parent.centerX
-            _btnClick.top = parent.top + 160.sp
+            _btnClick.centerY = parent.centerY - 40.sp
             // header
             _header.width = parent.width
             _header.height = constant(150.0.sp)
