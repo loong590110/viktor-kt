@@ -11,7 +11,7 @@ import me.julius.apps.viktor.fragments.HeaderFragment
 
 class DetailPage(context: PageContext) : Page(context) {
     init {
-        val header = HeaderFragment(context)
+        val header = HeaderFragment(context) {}
         val btnClick = PushButton("close detail page")
         this += listOf(btnClick, header)
         layout = constrain(btnClick, header) { _btnClick, _header ->

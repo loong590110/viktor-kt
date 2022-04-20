@@ -8,6 +8,7 @@ import io.nacular.doodle.drawing.Color
 import io.nacular.doodle.drawing.ColorPaint
 import io.nacular.doodle.drawing.LinearGradientPaint
 import io.nacular.doodle.drawing.opacity
+import io.nacular.doodle.event.PointerListener
 import io.nacular.doodle.geometry.Point
 import io.nacular.doodle.geometry.Rectangle
 import io.nacular.doodle.layout.constrain
@@ -22,10 +23,10 @@ import me.julius.apps.viktor.ViktorColors.secondDarkColor
 import me.julius.apps.viktor.core.AutoSize.sp
 import me.julius.apps.viktor.core.Fragment
 import me.julius.apps.viktor.core.PageContext
-import me.julius.apps.viktor.hoverColor
+import me.julius.apps.viktor.core.hoverColor
 import me.julius.apps.viktor.layout.LinearLayout
 
-class HeaderFragment(context: PageContext) : Fragment(context) {
+class HeaderFragment(context: PageContext, block: (Int) -> Unit) : Fragment(context) {
     companion object {
         private val shadowSize = 8.0.sp
     }
@@ -38,7 +39,7 @@ class HeaderFragment(context: PageContext) : Fragment(context) {
 
     init {
         mainScope.launch {
-            backgroundColor = Color.White opacity 1.0f
+            backgroundColor = Color.White opacity 0.5f
             val txtTitle = Label(
                 StyledText(
                     "Viktor Rack & Warehouse Equipment Manufacturing Co., Ltd.", fontLoader {
@@ -48,17 +49,20 @@ class HeaderFragment(context: PageContext) : Fragment(context) {
                 )
             )
             val tabMenu = container {
-                listOf("HOME", "ABOUT VIKTOR", "PRODUCTS", "PROJECT CASE", "CONTACT US").map {
+                listOf("HOME", "ABOUT VIKTOR", "PRODUCTS", "PROJECT CASE", "CONTACT US").forEachIndexed { index, text ->
                     mainScope.launch { // FIXME: 实例化控件依赖协程的设计有缺陷, 造成刷新页面时局部闪烁
                         this@container += Label(
                             StyledText(
-                                it, fontLoader {
+                                text, fontLoader {
                                     size = 16.sp
                                     family = FONT_FAMILY
                                 }, foreground = ColorPaint(Color(secondDarkColor))
                             )
                         ).apply {
                             hoverColor = Color(primaryColor)
+                            pointerChanged += PointerListener.clicked {
+                                block(index)
+                            }
                         }
                     }
                 }

@@ -1,6 +1,7 @@
 package me.julius.apps.viktor.core
 
 import io.nacular.doodle.core.Container
+import io.nacular.doodle.drawing.Canvas
 import io.nacular.doodle.drawing.FontLoader
 import io.nacular.doodle.geometry.Size
 import kotlinx.coroutines.CoroutineScope
@@ -27,5 +28,9 @@ open class Page(val context: PageContext) : Container(), Context {
             }
             this.size = new
         }
+    }
+
+    override fun render(canvas: Canvas) {
+        drawBackgroundColor(canvas)
     }
 }

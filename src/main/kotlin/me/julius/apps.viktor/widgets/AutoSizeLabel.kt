@@ -2,11 +2,10 @@ package me.julius.apps.viktor.widgets
 
 import io.nacular.doodle.controls.text.Label
 import io.nacular.doodle.drawing.Canvas
-import io.nacular.doodle.drawing.ColorPaint
-import io.nacular.doodle.geometry.Rectangle
 import io.nacular.doodle.text.StyledText
 import io.nacular.doodle.utils.HorizontalAlignment
 import io.nacular.doodle.utils.VerticalAlignment
+import me.julius.apps.viktor.core.drawBackgroundColor
 
 class AutoSizeLabel(
     styledText: StyledText,
@@ -30,8 +29,6 @@ class AutoSizeLabel(
     )
 
     override fun render(canvas: Canvas) {
-        backgroundColor?.apply {
-            canvas.rect(Rectangle(0.0, 0.0, width, height), ColorPaint(this))
-        }
+        drawBackgroundColor(canvas)
     }
 }
