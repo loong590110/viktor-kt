@@ -5,7 +5,7 @@ import io.nacular.doodle.drawing.Canvas
 import io.nacular.doodle.drawing.FontLoader
 import kotlinx.coroutines.CoroutineScope
 
-open class Fragment(val context: PageContext) : Container(), Context {
+open class Fragment(private val context: PageContext) : Container(), Context {
     override val applicationContext: ApplicationContext get() = context.applicationContext
     override val mainScope: CoroutineScope get() = context.mainScope
     override val fontLoader: FontLoader get() = context.fontLoader

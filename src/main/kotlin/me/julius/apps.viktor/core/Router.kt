@@ -51,12 +51,12 @@ class Router(private val context: ApplicationContext) {
     }
 
     fun close(page: Page) {
-        history -= page.context.path
+        history -= page.path
         context.display -= page
         context.display.lastOrNull { it is Page }?.also {
             visiblePage = it as Page
             it.visible = true
-            window.location.href = "${window.location.pathname}#${it.context.path}"
+            window.location.href = "${window.location.pathname}#${it.path}"
         } ?: path("/").navigate()
     }
 

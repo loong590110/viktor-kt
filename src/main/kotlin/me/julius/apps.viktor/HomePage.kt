@@ -16,7 +16,7 @@ import me.julius.apps.viktor.widgets.ViewPager
 class HomePage(context: PageContext) : Page(context) {
     init {
         val viewPager = ViewPager(
-            listOf(
+            context, listOf(
                 HomeFragment(context),
                 AboutViktorFragment(context),
                 ProductsFragment(context),

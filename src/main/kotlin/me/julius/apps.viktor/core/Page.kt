@@ -6,11 +6,12 @@ import io.nacular.doodle.drawing.FontLoader
 import io.nacular.doodle.geometry.Size
 import kotlinx.coroutines.CoroutineScope
 
-open class Page(val context: PageContext) : Container(), Context {
+open class Page(private val context: PageContext) : Container(), Context {
     override val applicationContext: ApplicationContext get() = context.applicationContext
     override val mainScope: CoroutineScope get() = context.mainScope
     override val fontLoader: FontLoader get() = context.fontLoader
     override val router: Router get() = context.router
+    val path = context.path
     var fixedSize: Size? = null
         set(value) {
             if (value == null) {
