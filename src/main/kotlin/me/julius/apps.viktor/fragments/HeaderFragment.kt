@@ -39,7 +39,7 @@ class HeaderFragment(context: PageContext, block: (Int) -> Unit) : Fragment(cont
 
     init {
         mainScope.launch {
-            backgroundColor = Color.White opacity 0.5f
+            backgroundColor = Color.White opacity 0.8f
             val txtTitle = Label(
                 StyledText(
                     "Viktor Rack & Warehouse Equipment Manufacturing Co., Ltd.", fontLoader {
@@ -74,13 +74,13 @@ class HeaderFragment(context: PageContext, block: (Int) -> Unit) : Fragment(cont
             }
             this@HeaderFragment += listOf(txtTitle, tabMenu)
             layout = constrain(txtTitle, tabMenu) { _txtTitle, _tabMenu ->
-                val marginHorizontal = (parent.width * 0.1)
+                val marginHorizontal = (parent.width * 0.14)
                 _txtTitle.left = parent.left + marginHorizontal
-                _txtTitle.top = parent.top + 38.sp
+                _txtTitle.top = parent.top + 36.sp
                 _tabMenu.left = _txtTitle.left
-                _tabMenu.top = _txtTitle.bottom + 12.sp
+                _tabMenu.top = _txtTitle.bottom + 14.sp
                 _tabMenu.right = _txtTitle.right
-                _tabMenu.bottom = parent.bottom - shadowSize
+                _tabMenu.bottom = parent.bottom
             }
         }
     }

@@ -3,6 +3,7 @@ package me.julius.apps.viktor
 import io.nacular.doodle.animation.Animator
 import io.nacular.doodle.application.Modules
 import io.nacular.doodle.application.application
+import io.nacular.doodle.image.ImageLoader
 import io.nacular.doodle.theme.basic.BasicTheme
 import me.julius.apps.viktor.core.ApplicationContext
 import me.julius.apps.viktor.core.Context
@@ -14,7 +15,11 @@ import org.kodein.di.instance
 fun main() {
     application(
         modules = listOf(
-            Modules.PointerModule, Modules.FontModule, ViktorTheme.ViktorTheme, ViktorModules.AnimatorModule
+            Modules.PointerModule,
+            Modules.FontModule,
+            Modules.ImageModule,
+            ViktorTheme.ViktorTheme,
+            ViktorModules.AnimatorModule
         ) + BasicTheme.basicThemeBehaviors + ViktorTheme.autoSizeLabelBehavior()
     ) {
         ViktorApp(ApplicationContext(this))
@@ -24,6 +29,9 @@ fun main() {
 val ApplicationContext.animator: Animator get() = noArgBindingDI.instance()
 val Page.animator: Animator get() = applicationContext.animator
 val Fragment.animator: Animator get() = applicationContext.animator
-
 fun animator(context: Context): Animator = context.applicationContext.animator
 typealias ViktorModules = me.julius.apps.viktor.Modules
+
+val ApplicationContext.imageLoader: ImageLoader get() = noArgBindingDI.instance()
+val Page.imageLoader: ImageLoader get() = applicationContext.imageLoader
+val Fragment.imageLoader: ImageLoader get() = applicationContext.imageLoader

@@ -29,7 +29,7 @@ class HomePage(context: PageContext) : Page(context) {
         val header = HeaderFragment(context) {
             viewPager.currentItem = it
         }.also {
-            it.size = Size(this@HomePage.size.width, 150.0.sp)
+            it.size = Size(this@HomePage.size.width, 136.0.sp)
         }
         this += listOf(viewPager, header)
     }
