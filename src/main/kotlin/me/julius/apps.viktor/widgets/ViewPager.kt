@@ -30,9 +30,23 @@ class ViewPager(
     private var currentPage: View? = null
     private var removingPage: View? = null
     private var removingItem: Int = -1
+    private var pendingItem: Int = -1
+    private var onScroll: ((Double) -> Unit)? = null
+    private var isBusy: Boolean = false
 
     var currentItem: Int = 0
         set(value) {
+            if (value < 0 || value >= childrenHolder.size) {
+                throw IndexOutOfBoundsException("Index is $value but size is ${childrenHolder.size}")
+            }
+            if (field == value) {
+                return
+            }
+            if (isBusy) {
+                pendingItem = value
+                return
+            }
+            isBusy = true
             removingItem = field
             field = value
             addOrReplaceChild()
@@ -40,6 +54,10 @@ class ViewPager(
 
     init {
         addOrReplaceChild()
+    }
+
+    fun setOnScrollListener(block: (Double) -> Unit) {
+        this.onScroll = block
     }
 
     private fun addOrReplaceChild() {
@@ -78,7 +96,7 @@ class ViewPager(
                             removingPage!!.x = -it
                             currentPage!!.x = width - it
                         }.completed += {
-                            this@ViewPager -= removingPage!!
+                            onAnimationEnded()
                         }
                     } else {
                         currentPage!!.bounds = Rectangle(0.0, height, width, height)
@@ -88,7 +106,7 @@ class ViewPager(
                             removingPage!!.y = -it
                             currentPage!!.y = height - it
                         }.completed += {
-                            this@ViewPager -= removingPage!!
+                            onAnimationEnded()
                         }
                     }
                 }
@@ -101,7 +119,7 @@ class ViewPager(
                             removingPage!!.x = it
                             currentPage!!.x = -width + it
                         }.completed += {
-                            this@ViewPager -= removingPage!!
+                            onAnimationEnded()
                         }
                     } else {
                         currentPage!!.bounds = Rectangle(0.0, -height, width, height)
@@ -111,7 +129,7 @@ class ViewPager(
                             removingPage!!.y = -it
                             currentPage!!.y = -height + it
                         }.completed += {
-                            this@ViewPager -= removingPage!!
+                            onAnimationEnded()
                         }
                     }
                 }
@@ -119,6 +137,20 @@ class ViewPager(
             removingItem = -1
         } else {
             currentPage!!.bounds = Rectangle(0.0, 0.0, width, height)
+            reset()
+        }
+    }
+
+    private fun onAnimationEnded() {
+        this -= removingPage!!
+        reset()
+    }
+
+    private fun reset() {
+        isBusy = false
+        if (pendingItem != -1) {
+            currentItem = pendingItem
+            pendingItem = -1
         }
     }
 }

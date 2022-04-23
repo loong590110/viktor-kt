@@ -13,10 +13,25 @@ open class LinearLayout(
     private val verticalAlignment: VerticalAlignment = VerticalAlignment.Top,
     private val spacing: Double = 0.0
 ) : Layout {
+    private var prepare: ((PositionableContainer) -> Unit)? = null
+
+    companion object {
+        fun linearLayout(
+            orientation: Orientation = Orientation.Vertical,
+            horizontalAlignment: HorizontalAlignment = HorizontalAlignment.Left,
+            verticalAlignment: VerticalAlignment = VerticalAlignment.Top,
+            spacing: Double = 0.0,
+            prepare: ((PositionableContainer) -> Unit)? = null
+        ) = LinearLayout(orientation, horizontalAlignment, verticalAlignment, spacing).apply {
+            this.prepare = prepare
+        }
+    }
+
     override fun layout(container: PositionableContainer) {
         if (container.children.isEmpty()) {
             return
         }
+        prepare?.invoke(container)
         val availableWidth = container.width - container.insets.left - container.insets.right
         val availableHeight = container.height - container.insets.top - container.insets.bottom
         if (orientation == Orientation.Horizontal) {

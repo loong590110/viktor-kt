@@ -19,7 +19,7 @@ import io.nacular.doodle.utils.VerticalAlignment
 import kotlinx.coroutines.launch
 import me.julius.apps.viktor.FONT_FAMILY
 import me.julius.apps.viktor.ViktorColors.primaryColor
-import me.julius.apps.viktor.ViktorColors.secondDarkColor
+import me.julius.apps.viktor.ViktorColors.primaryDarkColor
 import me.julius.apps.viktor.core.AutoSize.sp
 import me.julius.apps.viktor.core.Fragment
 import me.julius.apps.viktor.core.PageContext
@@ -56,7 +56,7 @@ class HeaderFragment(context: PageContext, block: (Int) -> Unit) : Fragment(cont
                                 text, fontLoader {
                                     size = 16.sp
                                     family = FONT_FAMILY
-                                }, foreground = ColorPaint(Color(secondDarkColor))
+                                }, foreground = ColorPaint(Color(primaryDarkColor))
                             )
                         ).apply {
                             hoverColor = Color(primaryColor)
