@@ -74,7 +74,6 @@ class Banner(
         timer?.cancel()
         timer = Timer(interval) {
             currentItem++
-            println("item: $currentItem")
         }
         if (displayed) {
             timer?.start()
@@ -130,6 +129,7 @@ class Banner(
                     }.invoke {
                         removingPage!!.x = -it
                         currentPage!!.x = width - it
+                        onScroll?.invoke(it / width)
                     }.completed += {
                         onAnimationEnded()
                     }
@@ -140,6 +140,7 @@ class Banner(
                     }.invoke {
                         removingPage!!.y = -it
                         currentPage!!.y = height - it
+                        onScroll?.invoke(it / height)
                     }.completed += {
                         onAnimationEnded()
                     }
@@ -153,6 +154,7 @@ class Banner(
                     }.invoke {
                         removingPage!!.x = it
                         currentPage!!.x = -width + it
+                        onScroll?.invoke(it / width)
                     }.completed += {
                         onAnimationEnded()
                     }
@@ -163,6 +165,7 @@ class Banner(
                     }.invoke {
                         removingPage!!.y = -it
                         currentPage!!.y = -height + it
+                        onScroll?.invoke(it / height)
                     }.completed += {
                         onAnimationEnded()
                     }

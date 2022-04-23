@@ -38,8 +38,14 @@ class BannerFragment(context: PageContext) : Fragment(context) {
             }
             val indicatorSize = Size(100.0.sp, 2.0.sp)
             val indicator = view {
+                var lastItem = banner.currentItem
+                var fraction = 0.0
                 banner.setOnScrollListener {
-                    if (it == 1.0) rerender()
+                    fraction = it
+                    rerender()
+                    if (fraction == 1.0) {
+                        lastItem = banner.currentItem
+                    }
                 }
                 val selectedColorPaint = ColorPaint(Color(primaryColor))
                 val unselectedColorPaint = ColorPaint(Color(primaryDarkColor))
@@ -48,19 +54,22 @@ class BannerFragment(context: PageContext) : Fragment(context) {
                 val totalWidth = indicatorSize.width * count + spacing * (count - 1)
                 val bounds = mutableListOf<Rectangle>()
                 render = {
+                    bounds.clear()
                     var x = width / 2 - totalWidth / 2
                     for (index in 0 until count) {
-                        val selected = index == banner.currentItem
-                        val paint = if (selected) selectedColorPaint else unselectedColorPaint
-                        val height = if (selected) indicatorSize.height else indicatorSize.height // 可按需求设置两种状态指示器为不同高度
-                        val y = indicatorSize.height / 2 - height / 2
                         rect(
-                            Rectangle(
-                                x, y, indicatorSize.width, height
-                            ), indicatorSize.height, paint
+                            Rectangle(x, 0.0, indicatorSize.width, height).also { bounds += it },
+                            indicatorSize.height,
+                            unselectedColorPaint
                         )
                         x += indicatorSize.width + spacing
                     }
+                    val item1 = bounds[lastItem]
+                    val item2 = bounds[banner.currentItem]
+                    x = item1.x + (item2.x - item1.x) * fraction
+                    rect(
+                        Rectangle(x, 0.0, indicatorSize.width, height), indicatorSize.height, selectedColorPaint
+                    )
                 }
                 pointerChanged += PointerListener.clicked { e ->
                     bounds.indexOfFirst { e.location.x in it.x..it.right }.takeIf { it != -1 }
