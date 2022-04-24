@@ -13,10 +13,10 @@ import io.nacular.doodle.geometry.Rectangle
 import io.nacular.doodle.utils.Orientation
 import io.nacular.measured.units.Measure
 import io.nacular.measured.units.Time
-import me.julius.apps.viktor.animator
 import me.julius.apps.viktor.core.Context
 import me.julius.apps.viktor.core.Timer
 import me.julius.apps.viktor.core.drawBackgroundColor
+import me.julius.apps.viktor.core.animator
 import kotlin.math.abs
 
 class Banner(

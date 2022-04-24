@@ -20,16 +20,16 @@ import me.julius.apps.viktor.ViktorColors.primaryDarkColor
 import me.julius.apps.viktor.core.AutoSize.sp
 import me.julius.apps.viktor.core.Fragment
 import me.julius.apps.viktor.core.PageContext
-import me.julius.apps.viktor.imageLoader
+import me.julius.apps.viktor.core.imageLoader
 import me.julius.apps.viktor.layout.LinearLayout
 import me.julius.apps.viktor.widgets.Banner
 
 class BannerFragment(context: PageContext) : Fragment(context) {
     init {
         mainScope.launch {
-            val photo1 = Photo(imageLoader.load("images/954563.jpg")!!)
-            val photo2 = Photo(imageLoader.load("images/1004716.jpg")!!)
-            val photo3 = Photo(imageLoader.load("images/1013707.jpg")!!)
+            val photo1 = Photo(imageLoader.load("images/banner1.jpg")!!)
+            val photo2 = Photo(imageLoader.load("images/banner2.jpg")!!)
+            val photo3 = Photo(imageLoader.load("images/banner3.jpg")!!)
             val icoAngleLeft = Photo(imageLoader.load("images/angle-left.svg")!!)
             val icoAngleRight = Photo(imageLoader.load("images/angle-right.svg")!!)
             val bannerItems = listOf(photo1, photo2, photo3)

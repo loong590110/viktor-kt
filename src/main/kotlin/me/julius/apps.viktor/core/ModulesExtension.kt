@@ -1,4 +1,4 @@
-package me.julius.apps.viktor
+package me.julius.apps.viktor.core
 
 import io.nacular.doodle.animation.Animator
 import io.nacular.doodle.animation.impl.AnimatorImpl

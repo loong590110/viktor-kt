@@ -1,2 +1,2 @@
 # viktor-kt
-A website base on doodle/kotlin
+A website base on [doodle/kotlin](https://github.com/nacular/doodle)

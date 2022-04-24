@@ -9,12 +9,12 @@ import kotlinx.coroutines.MainScope
 import org.kodein.di.bindings.NoArgBindingDI
 import org.kodein.di.instance
 
-class ApplicationContext(val noArgBindingDI: NoArgBindingDI<*>) : BaseContext() {
+class ApplicationContext(val modulesProvider: NoArgBindingDI<*>) : BaseContext() {
     override val applicationContext: ApplicationContext = this
-    val display: Display = noArgBindingDI.instance()
-    val themeManager: ThemeManager = noArgBindingDI.instance()
-    val theme: DynamicTheme = noArgBindingDI.instance()
-    override val fontLoader: FontLoader = noArgBindingDI.instance()
+    val display: Display = modulesProvider.instance()
+    val themeManager: ThemeManager = modulesProvider.instance()
+    val theme: DynamicTheme = modulesProvider.instance()
+    override val fontLoader: FontLoader = modulesProvider.instance()
     override val mainScope: CoroutineScope by lazy { MainScope() }
     override val router: Router by lazy { Router(this) }
 }
