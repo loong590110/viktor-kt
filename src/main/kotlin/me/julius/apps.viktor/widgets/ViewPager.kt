@@ -53,6 +53,10 @@ class ViewPager(
         }
 
     init {
+        boundsChanged += { _, _, _ ->
+            relayout()
+            rerender()
+        }
         addOrReplaceChild()
     }
 

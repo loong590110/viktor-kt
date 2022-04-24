@@ -3,14 +3,10 @@ package me.julius.apps.viktor.fragments
 import io.nacular.doodle.controls.text.Label
 import io.nacular.doodle.core.container
 import io.nacular.doodle.core.plusAssign
-import io.nacular.doodle.drawing.Canvas
 import io.nacular.doodle.drawing.Color
 import io.nacular.doodle.drawing.ColorPaint
-import io.nacular.doodle.drawing.LinearGradientPaint
 import io.nacular.doodle.drawing.opacity
 import io.nacular.doodle.event.PointerListener
-import io.nacular.doodle.geometry.Point
-import io.nacular.doodle.geometry.Rectangle
 import io.nacular.doodle.layout.constrain
 import io.nacular.doodle.text.StyledText
 import io.nacular.doodle.utils.HorizontalAlignment
@@ -27,16 +23,6 @@ import me.julius.apps.viktor.core.hoverColor
 import me.julius.apps.viktor.layout.LinearLayout
 
 class HeaderFragment(context: PageContext, block: (Int) -> Unit) : Fragment(context) {
-    companion object {
-        private val shadowSize = 8.0.sp
-    }
-
-    private val shadowPaint by lazy {
-        LinearGradientPaint(
-            Color.Black opacity 0.1f, Color.Black opacity 0f, Point(0.0, height - shadowSize), Point(0.0, height)
-        )
-    }
-
     init {
         mainScope.launch {
             backgroundColor = Color.White opacity 0.8f
@@ -82,13 +68,6 @@ class HeaderFragment(context: PageContext, block: (Int) -> Unit) : Fragment(cont
                 _tabMenu.right = _txtTitle.right
                 _tabMenu.bottom = parent.bottom
             }
-        }
-    }
-
-    override fun render(canvas: Canvas) {
-        super.render(canvas)
-        if (backgroundColor?.opacity == 1f) {
-            canvas.rect(Rectangle(0.0, height - shadowSize, width, shadowSize), shadowPaint)
         }
     }
 }

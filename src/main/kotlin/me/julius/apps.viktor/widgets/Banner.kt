@@ -56,6 +56,10 @@ class Banner(
         }
 
     init {
+        boundsChanged += { _, _, _ ->
+            relayout()
+            rerender()
+        }
         displayChange += { _, _, displayed ->
             if (displayed) {
                 timer?.start()

@@ -12,7 +12,7 @@ class HomeFragment(context: PageContext) : Fragment(context) {
         val bannerFragment = BannerFragment(context)
         this@HomeFragment += listOf(bannerFragment)
         layout = LinearLayout.linearLayout {
-            bannerFragment.size = Size(it.width, 500.0.sp)
+            bannerFragment.size = Size(it.width, 550.0.sp)
         }
     }
 }
