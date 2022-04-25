@@ -94,6 +94,10 @@ class ViewPropertyAnimator(private val view: View, private val animator: Animato
     private var scaleY: Double = view.height
     private var duration: Double = 200.0
 
+    companion object {
+        private val animations = HashMap<View, Animation>()
+    }
+
     fun translationX(x: Double): ViewPropertyAnimator {
         translationX = x
         return this
@@ -143,27 +147,33 @@ class ViewPropertyAnimator(private val view: View, private val animator: Animato
             SpeedUpSlowDown(Measure(duration, Time.milliseconds), Measure(end, noneUnits))
         }
     ): Animation? {
+        animations[view]?.cancel() // cancel first, any way
         if (translationX != view.x || translationY != view.y || scaleX != view.width || scaleY != view.height) {
-            val txOffset = translationX - view.x
-            val tyOffset = translationY - view.y
-            val sxOffset = scaleX - view.width
-            val syOffset = scaleY - view.height
             val startX = view.x
             val startY = view.y
             val startW = view.width
             val startH = view.height
+            val xOffset = translationX - startX
+            val yOffset = translationY - startY
+            val wOffset = scaleX - startW
+            val hOffset = scaleY - startH
             return animator(0.0 to 1.0).using(block)() {
                 var x: Double = startX
                 var y: Double = startY
                 var w: Double = startW
                 var h: Double = startH
                 when {
-                    txOffset != 0.0 -> x += txOffset * it
-                    tyOffset != 0.0 -> y += tyOffset * it
-                    sxOffset != 0.0 -> w += sxOffset * it
-                    syOffset != 0.0 -> h += syOffset * it
+                    xOffset != 0.0 -> x += xOffset * it
+                    yOffset != 0.0 -> y += yOffset * it
+                    wOffset != 0.0 -> w += wOffset * it
+                    hOffset != 0.0 -> h += hOffset * it
                 }
                 view.bounds = Rectangle(x, y, w, h)
+            }.also {
+                it.completed += {
+                    animations.remove(view)
+                }
+                animations[view] = it
             }
         }
         return null
