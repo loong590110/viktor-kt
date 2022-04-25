@@ -65,7 +65,6 @@ class FloatMenu(context: PageContext, pointerListener: FloatMenu.(Int, Boolean) 
 
 class TelephoneCard(context: PageContext) : FloatCard(context) {
     init {
-        insets = Insets(shadowSize * 3, 0.0, shadowSize * 3, 0.0)
         mainScope.launch {
             val title = Label(
                 StyledText(
@@ -97,7 +96,6 @@ class TelephoneCard(context: PageContext) : FloatCard(context) {
 
 class QQCard(context: PageContext) : FloatCard(context) {
     init {
-        insets = Insets(shadowSize * 3, 0.0, shadowSize * 3, 0.0)
         mainScope.launch {
             val qq1 = Label(
                 StyledText(
@@ -127,6 +125,53 @@ class QQCard(context: PageContext) : FloatCard(context) {
     }
 }
 
+class QRCodeCard(context: PageContext) : FloatCard(context) {
+    init {
+        contentSize = Size(200.0.sp, 220.0.sp)
+        mainScope.launch {
+            val title = Label(
+                StyledText(
+                    "Special offer", fontLoader {
+                        size = 16.sp
+                        family = FONT_FAMILY
+                    }, foreground = ColorPaint(Color.White)
+                )
+            ).apply {
+                width = contentSize.width
+            }
+            val content = ImageView(imageLoader.load("images/qrcode.jpg")!!).apply {
+                size = Size(contentSize.width * 0.7, contentSize.width * 0.7)
+            }
+            this@QRCodeCard += listOf(title, content)
+            layout = LinearLayout(
+                horizontalAlignment = HorizontalAlignment.Center, verticalAlignment = VerticalAlignment.Middle
+            )
+        }
+    }
+}
+
+class NavigationCard(context: PageContext) : FloatCard(context) {
+    init {
+        contentSize = Size(200.0.sp, 40.0.sp)
+        mainScope.launch {
+            val title = Label(
+                StyledText(
+                    "Click to go back the top", fontLoader {
+                        size = 16.sp
+                        family = FONT_FAMILY
+                    }, foreground = ColorPaint(Color.White)
+                )
+            ).apply {
+                width = contentSize.width
+            }
+            this@NavigationCard += listOf(title)
+            layout = LinearLayout(
+                horizontalAlignment = HorizontalAlignment.Center, verticalAlignment = VerticalAlignment.Middle
+            )
+        }
+    }
+}
+
 open class FloatCard(context: PageContext) : Fragment(context) {
     protected val shadowSize = 8.0.sp
     protected var contentSize = Size(200.0.sp, 100.0.sp)
@@ -137,6 +182,7 @@ open class FloatCard(context: PageContext) : Fragment(context) {
 
     init {
         size = contentSize + Size(shadowSize * 4, shadowSize * 4)
+        insets = Insets(shadowSize * 3, 0.0, shadowSize * 3, 0.0)
     }
 
     override fun render(canvas: Canvas) {

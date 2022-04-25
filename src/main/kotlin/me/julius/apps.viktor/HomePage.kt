@@ -18,9 +18,11 @@ import me.julius.apps.viktor.fragments.ContactUsFragment
 import me.julius.apps.viktor.fragments.FloatMenu
 import me.julius.apps.viktor.fragments.HeaderFragment
 import me.julius.apps.viktor.fragments.HomeFragment
+import me.julius.apps.viktor.fragments.NavigationCard
 import me.julius.apps.viktor.fragments.ProductsFragment
 import me.julius.apps.viktor.fragments.ProjectCaseFragment
 import me.julius.apps.viktor.fragments.QQCard
+import me.julius.apps.viktor.fragments.QRCodeCard
 import me.julius.apps.viktor.fragments.TelephoneCard
 import me.julius.apps.viktor.widgets.ViewPager
 
@@ -52,15 +54,17 @@ class HomePage(context: PageContext) : Page(context) {
                 }
             }
         }
-        val telephoneCard = TelephoneCard(context)
+        val phCard = TelephoneCard(context)
         val qqCard = QQCard(context)
+        val qrCard = QRCodeCard(context)
+        val nvCard = NavigationCard(context)
         val floatMenu = FloatMenu(context) { index, show ->
             when (index) {
                 0 -> {
                     if (show) {
-                        telephoneCard.animate().translationX(bounds.x - telephoneCard.width).start()
+                        phCard.animate().translationX(bounds.x - phCard.width).start()
                     } else {
-                        telephoneCard.animate().translationX(bounds.right).start()
+                        phCard.animate().translationX(bounds.right).start()
                     }
                 }
                 1 -> {
@@ -70,18 +74,34 @@ class HomePage(context: PageContext) : Page(context) {
                         qqCard.animate().translationX(bounds.right).start()
                     }
                 }
-                2 -> {}
-                3 -> {}
+                2 -> {
+                    if (show) {
+                        qrCard.animate().translationX(bounds.x - qrCard.width).start()
+                    } else {
+                        qrCard.animate().translationX(bounds.right).start()
+                    }
+                }
+                3 -> {
+                    if (show) {
+                        nvCard.animate().translationX(bounds.x - nvCard.width).start()
+                    } else {
+                        nvCard.animate().translationX(bounds.right).start()
+                    }
+                }
             }
         }.apply {
             boundsChanged += { _, _, new ->
-                telephoneCard.x = new.right
-                telephoneCard.y = new.y - (telephoneCard.height - width) / 2 // width = height of item
+                phCard.x = new.right
+                phCard.y = new.y - (phCard.height - width) / 2 // width = height of item
                 qqCard.x = new.right
                 qqCard.y = new.y - (qqCard.height - width) / 2 + width // 下移一格
+                qrCard.x = new.right
+                qrCard.y = new.y - (qrCard.height - width) / 2 + width * 2 // 下移两格
+                nvCard.x = new.right
+                nvCard.y = new.y - (nvCard.height - width) / 2 + width * 3 // 下移三格
             }
         }
-        this += listOf(viewPager, shadow, header, telephoneCard, qqCard, floatMenu)
+        this += listOf(viewPager, shadow, header, phCard, qqCard, qrCard, nvCard, floatMenu)
         layout = constrain(floatMenu) { _floatMenu ->
             _floatMenu.right = parent.right
             _floatMenu.centerY = parent.centerY
