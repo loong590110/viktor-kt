@@ -1,5 +1,6 @@
 package me.julius.apps.viktor
 
+import io.nacular.doodle.core.View
 import io.nacular.doodle.core.plusAssign
 import io.nacular.doodle.core.view
 import io.nacular.doodle.drawing.Color
@@ -27,10 +28,16 @@ import me.julius.apps.viktor.fragments.TelephoneCard
 import me.julius.apps.viktor.widgets.ViewPager
 
 class HomePage(context: PageContext) : Page(context) {
+    private lateinit var shadow: View
+
     init {
         val viewPager = ViewPager(
             context, listOf(
-                HomeFragment(context),
+                HomeFragment(context).apply {
+                    setOnScrollListener { _, y ->
+                        shadow.visible = y != 0.0
+                    }
+                },
                 AboutViktorFragment(context),
                 ProductsFragment(context),
                 ProjectCaseFragment(context),
@@ -44,12 +51,12 @@ class HomePage(context: PageContext) : Page(context) {
         }.apply {
             size = Size(MATCH_PARENT_WIDTH, 136.0.sp)
         }
-        val shadow = view {
+        shadow = view {
             visible = false
-            val shadowHeight = 4.0.sp
-            bounds = Rectangle(0.0, 0.0, MATCH_PARENT_WIDTH, header.height + shadowHeight * 3)
+            val shadowHeight = 8.0.sp
+            bounds = Rectangle(0.0, 0.0, MATCH_PARENT_WIDTH, header.height + shadowHeight * 2)
             render = {
-                outerShadow(vertical = shadowHeight, blurRadius = shadowHeight, color = Color.Black) {
+                outerShadow(blurRadius = shadowHeight, color = Color.Gray) {
                     rect(Rectangle(0.0, 0.0, width, header.height), fill = ColorPaint(Color.White))
                 }
             }
