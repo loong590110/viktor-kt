@@ -44,7 +44,7 @@ open class LinearLayout(
             }
             when (horizontalAlignment) {
                 HorizontalAlignment.Left -> {
-                    var x = container.insets.left + spacing
+                    var x = container.insets.left
                     container.children.forEach {
                         it.x = x
                         it.y = y(it)
@@ -82,7 +82,7 @@ open class LinearLayout(
             }
             when (verticalAlignment) {
                 VerticalAlignment.Top -> {
-                    var y = container.insets.top + spacing
+                    var y = container.insets.top
                     container.children.forEach {
                         it.x = x(it)
                         it.y = y

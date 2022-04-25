@@ -9,17 +9,17 @@ import io.nacular.doodle.event.PointerListener
 import io.nacular.doodle.geometry.Rectangle
 import io.nacular.doodle.utils.Orientation
 import kotlinx.browser.document
+import me.julius.apps.viktor.core.Context
 import me.julius.apps.viktor.core.drawBackgroundColor
+import me.julius.apps.viktor.core.mainScope
 import kotlin.math.max
 
-/**
- * Created by Nicholas Eddy on 2/5/18.
- */
-
 class ScrollView(
-    private val orientation: Orientation = Orientation.Vertical, contentBuilder: ContainerBuilder.() -> Unit
+    private val context: Context,
+    private val orientation: Orientation = Orientation.Vertical,
+    private val contentBuilder: suspend ContainerBuilder.() -> Unit
 ) : Container() {
-    private val content: Container
+    private var content: Container? = null
     private var onScroll: ((Double, Double) -> Unit)? = null
     var scrollXRange = 0.0; private set
     var scrollYRange = 0.0; private set
@@ -31,14 +31,22 @@ class ScrollView(
     }
 
     init {
-        this += container(contentBuilder).also { content ->
-            this.content = content
-            content.children.onEach { child ->
-                child.boundsChanged += { _, _, _ ->
-                    content.height = content.children.maxOf { it.bounds.bottom } + content.insets.bottom
-                    scrollYRange = max(0.0, content.height - this@ScrollView.height)
+        this@ScrollView += container {
+            mainScope(context) {
+                contentBuilder()
+                content = this@container
+                content!!.children.onEach { child ->
+                    child.boundsChanged += { _, _, _ ->
+                        content!!.height = content!!.children.maxOf { it.bounds.bottom } + content!!.insets.bottom
+                        scrollYRange = max(0.0, content!!.height - this@ScrollView.height)
+                    }
                 }
+                this@ScrollView += content!!
             }
+        }
+        boundsChanged += { _, _, _ ->
+            relayout()
+            rerender()
         }
         pointerChanged += PointerListener.entered {
             document.onwheel = {
@@ -49,7 +57,7 @@ class ScrollView(
 
     override fun doLayout() {
         if (orientation == Orientation.Vertical) {
-            content.bounds = Rectangle(scrollX, scrollY, width, content.height)
+            content?.bounds = Rectangle(scrollX, scrollY, width, content!!.height)
         } else {
             throw IllegalStateException("Hasn't implemented")
         }

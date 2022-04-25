@@ -7,6 +7,7 @@ import io.nacular.doodle.drawing.LinearGradientPaint
 import io.nacular.doodle.geometry.Point
 import io.nacular.doodle.geometry.Rectangle
 import io.nacular.doodle.geometry.Size
+import io.nacular.doodle.utils.HorizontalAlignment
 import me.julius.apps.viktor.core.AutoSize.sp
 import me.julius.apps.viktor.core.Fragment
 import me.julius.apps.viktor.core.MATCH_PARENT
@@ -18,20 +19,25 @@ class HomeFragment(context: PageContext) : Fragment(context) {
     private var onScroll: ((Double, Double) -> Unit)? = null
 
     init {
-        val scrollView = ScrollView {
+        val scrollView = ScrollView(context) {
             val bannerFragment = BannerFragment(context)
+            val servicesFragment = ServicesFragment(context)
             val footer = container {
-                size = Size(500.0.sp, 20000.0.sp)
                 render = {
                     rect(
-                        Rectangle(0.0, 0.0, width, height),
-                        fill = LinearGradientPaint(Color.Gray, Color.Black, Point(0.0, 0.0), Point(width, height))
+                        Rectangle(0.0, 0.0, width, height), fill = LinearGradientPaint(
+                            Color.Gray, Color.Black, Point(0.0, 0.0), Point(width, height)
+                        )
                     )
                 }
             }
-            this += listOf(bannerFragment, footer)
-            layout = LinearLayout.linearLayout {
+            this@ScrollView += listOf(bannerFragment, servicesFragment, footer)
+            layout = LinearLayout.linearLayout(
+                horizontalAlignment = HorizontalAlignment.Center, spacing = 40.0.sp
+            ) {
                 bannerFragment.size = Size(it.width, 550.0.sp)
+                servicesFragment.size = Size(it.width, 550.0.sp)
+                footer.size = Size(it.width, 550.0.sp)
             }
         }.apply {
             size = MATCH_PARENT
