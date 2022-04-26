@@ -20,7 +20,7 @@ import me.julius.apps.viktor.FONT_FAMILY
 import me.julius.apps.viktor.ViktorColors
 import me.julius.apps.viktor.ViktorColors.primaryColor
 import me.julius.apps.viktor.core.AutoSize.sp
-import me.julius.apps.viktor.core.Fragment
+import me.julius.apps.viktor.core.AutomaticFragment
 import me.julius.apps.viktor.core.PageContext
 import me.julius.apps.viktor.core.imageLoader
 import me.julius.apps.viktor.core.mainScope
@@ -28,7 +28,14 @@ import me.julius.apps.viktor.layout.LinearLayout
 import me.julius.apps.viktor.widgets.GridView
 import me.julius.apps.viktor.widgets.ImageView
 
-class ServicesFragment(context: PageContext) : Fragment(context) {
+class ServicesFragment(context: PageContext) : AutomaticFragment(context, Width.MATCH_PARENT, Height.WRAP_CONTENT) {
+    companion object {
+        private val ITEM_WIDTH = 400.0.sp
+        private val ITEM_HORIZONTAL_SPACING = 30.0.sp
+        private const val SPAN_COUNT = 3
+        val CONTENT_WIDTH = ITEM_WIDTH * SPAN_COUNT + ITEM_HORIZONTAL_SPACING * (SPAN_COUNT - 1)
+    }
+
     init {
         mainScope(context) {
             val txtTitle = Label(StyledText("—  SERVICES  —", fontLoader {
@@ -44,7 +51,10 @@ class ServicesFragment(context: PageContext) : Fragment(context) {
                 )
             )
             val gridView = GridView(
-                spanCount = 3, itemSize = Size(400.0.sp, 220.0.sp), spacing = Size(30.0.sp, 35.0.sp), data = listOf(
+                spanCount = SPAN_COUNT,
+                itemSize = Size(ITEM_WIDTH, 220.0.sp),
+                spacing = Size(ITEM_HORIZONTAL_SPACING, 35.0.sp),
+                data = listOf(
                     Item("images/service1.jpg", "Light duty Racking", "MORE>"),
                     Item("images/service2.jpg", "Medium duty Racking", "MORE>"),
                     Item("images/service3.jpg", "Heavy duty Pallet racking", "MORE>"),
@@ -110,7 +120,7 @@ class ServicesFragment(context: PageContext) : Fragment(context) {
                     }
                 }
             }.apply {
-                insets = Insets(20.0.sp, 0.0, 20.0, 0.0)
+                insets = Insets(20.0.sp, 0.0, 0.0, 0.0)
             }
             this@ServicesFragment += listOf(txtTitle, txtSubtitle, gridView)
             layout = LinearLayout(

@@ -41,7 +41,6 @@ class ScrollView(
                         scrollYRange = max(0.0, content!!.height - this@ScrollView.height)
                     }
                 }
-                this@ScrollView += content!!
             }
         }
         boundsChanged += { _, _, _ ->

@@ -1,54 +1,48 @@
 package me.julius.apps.viktor.fragments
 
-import io.nacular.doodle.core.container
 import io.nacular.doodle.core.plusAssign
-import io.nacular.doodle.drawing.Color
-import io.nacular.doodle.drawing.LinearGradientPaint
-import io.nacular.doodle.geometry.Point
-import io.nacular.doodle.geometry.Rectangle
 import io.nacular.doodle.geometry.Size
+import io.nacular.doodle.layout.constrain
 import io.nacular.doodle.utils.HorizontalAlignment
 import me.julius.apps.viktor.core.AutoSize.sp
 import me.julius.apps.viktor.core.Fragment
-import me.julius.apps.viktor.core.MATCH_PARENT
 import me.julius.apps.viktor.core.PageContext
 import me.julius.apps.viktor.layout.LinearLayout
 import me.julius.apps.viktor.widgets.ScrollView
 
 class HomeFragment(context: PageContext) : Fragment(context) {
     private var onScroll: ((Double, Double) -> Unit)? = null
+    private val scrollView: ScrollView
 
     init {
-        val scrollView = ScrollView(context) {
+        scrollView = ScrollView(context) {
             val bannerFragment = BannerFragment(context)
             val servicesFragment = ServicesFragment(context)
-            val footer = container {
-                render = {
-                    rect(
-                        Rectangle(0.0, 0.0, width, height), fill = LinearGradientPaint(
-                            Color.Gray, Color.Black, Point(0.0, 0.0), Point(width, height)
-                        )
-                    )
-                }
-            }
-            this@ScrollView += listOf(bannerFragment, servicesFragment, footer)
+            val casesFragment = CasesFragment(context)
+            val footerFragment = FooterFragment(context)
+            this@ScrollView += listOf(bannerFragment, servicesFragment, casesFragment, footerFragment)
             layout = LinearLayout.linearLayout(
-                horizontalAlignment = HorizontalAlignment.Center, spacing = 40.0.sp
+                horizontalAlignment = HorizontalAlignment.Center, spacing = 50.0.sp
             ) {
                 bannerFragment.size = Size(it.width, 550.0.sp)
-                servicesFragment.size = Size(it.width, 550.0.sp)
-                footer.size = Size(it.width, 550.0.sp)
             }
         }.apply {
-            size = MATCH_PARENT
             setOnScrollListener { x, y ->
                 onScroll?.invoke(x, y)
             }
         }
         this@HomeFragment += scrollView
+        layout = constrain(scrollView) {
+            it.width = parent.width
+            it.height = parent.height
+        }
     }
 
     fun setOnScrollListener(block: (Double, Double) -> Unit) {
         onScroll = block
+    }
+
+    fun scrollTop() {
+        scrollView.scrollTo(0.0, 0.0)
     }
 }

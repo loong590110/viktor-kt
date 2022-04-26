@@ -6,11 +6,9 @@ import io.nacular.doodle.core.view
 import io.nacular.doodle.drawing.Color
 import io.nacular.doodle.drawing.ColorPaint
 import io.nacular.doodle.geometry.Rectangle
-import io.nacular.doodle.geometry.Size
+import io.nacular.doodle.layout.constant
 import io.nacular.doodle.layout.constrain
 import me.julius.apps.viktor.core.AutoSize.sp
-import me.julius.apps.viktor.core.MATCH_PARENT
-import me.julius.apps.viktor.core.MATCH_PARENT_WIDTH
 import me.julius.apps.viktor.core.Page
 import me.julius.apps.viktor.core.PageContext
 import me.julius.apps.viktor.core.animate
@@ -31,30 +29,27 @@ class HomePage(context: PageContext) : Page(context) {
     private lateinit var shadow: View
 
     init {
+        val homeFragment: HomeFragment
         val viewPager = ViewPager(
             context, listOf(
                 HomeFragment(context).apply {
                     setOnScrollListener { _, y ->
                         shadow.visible = y != 0.0
                     }
+                    homeFragment = this
                 },
                 AboutViktorFragment(context),
                 ProductsFragment(context),
                 ProjectCaseFragment(context),
                 ContactUsFragment(context)
             )
-        ).apply {
-            size = MATCH_PARENT
-        }
+        )
         val header = HeaderFragment(context) {
             viewPager.currentItem = it
-        }.apply {
-            size = Size(MATCH_PARENT_WIDTH, 136.0.sp)
         }
+        val shadowHeight = 8.0.sp
         shadow = view {
             visible = false
-            val shadowHeight = 8.0.sp
-            bounds = Rectangle(0.0, 0.0, MATCH_PARENT_WIDTH, header.height + shadowHeight * 2)
             render = {
                 outerShadow(blurRadius = shadowHeight, color = Color.Gray) {
                     rect(Rectangle(0.0, 0.0, width, header.height), fill = ColorPaint(Color.White))
@@ -107,11 +102,20 @@ class HomePage(context: PageContext) : Page(context) {
                 nvCard.x = new.right
                 nvCard.y = new.y - (nvCard.height - width) / 2 + width * 3 // 下移三格
             }
+            setOnScrollTopListener {
+                homeFragment.scrollTop()
+            }
         }
         this += listOf(viewPager, shadow, header, phCard, qqCard, qrCard, nvCard, floatMenu)
-        layout = constrain(floatMenu) { _floatMenu ->
+        layout = constrain(floatMenu, viewPager, shadow, header) { _floatMenu, _viewPager, _shadow, _header ->
             _floatMenu.right = parent.right
             _floatMenu.centerY = parent.centerY
+            _viewPager.width = parent.width
+            _viewPager.height = parent.height
+            _header.width = parent.width
+            _header.height = constant(136.0.sp)
+            _shadow.width = parent.width
+            _shadow.height = _header.height + shadowHeight * 2
         }
     }
 }

@@ -110,10 +110,8 @@ class BannerFragment(context: PageContext) : Fragment(context) {
             layout = constrain(
                 banner, indicator, btnAngleLeft, btnAngleRight
             ) { _banner, _indicator, _btnAngleLeft, _btnAngleRight ->
-                _banner.top = parent.top
-                _banner.left = parent.left
-                _banner.right = parent.right
-                _banner.bottom = parent.bottom
+                _banner.width = parent.width
+                _banner.height = parent.height
                 _indicator.width = parent.width
                 _indicator.height = constant(indicatorSize.height)
                 _indicator.bottom = parent.bottom - 16.0.sp

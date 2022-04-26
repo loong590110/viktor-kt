@@ -30,4 +30,5 @@ object ViktorColors {
     val primaryColor = 0xe79434u
     val primaryDarkColor = 0x333333u
     val secondDarkColor = 0x666666u
+    val thirdDarkColor = 0x999999u
 }

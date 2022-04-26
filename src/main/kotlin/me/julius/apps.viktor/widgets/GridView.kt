@@ -17,16 +17,17 @@ class GridView<T>(
     data: List<T>,
     creator: (Int, T) -> View
 ) : Container() {
+    private val rows = ceil(data.size.toDouble() / spanCount)
+
     init {
-        val rows = ceil(data.size.toDouble() / spanCount)
-        width = (itemSize * spanCount.toDouble() + spacing * (spanCount - 1.0)).width + insets.left + insets.right
-        height = (itemSize * rows + spacing * (rows - 1.0)).height + insets.top + insets.bottom
         data.forEachIndexed { index, item ->
             this@GridView += creator(index, item)
         }
     }
 
     override fun doLayout() {
+        width = (itemSize * spanCount.toDouble() + spacing * (spanCount - 1.0)).width + insets.left + insets.right
+        height = (itemSize * rows + spacing * (rows - 1.0)).height + insets.top + insets.bottom
         children.forEachIndexed { index, view ->
             val x = index % spanCount * (itemSize.width + spacing.width) + insets.left
             val y = index / spanCount * (itemSize.height + spacing.height) + insets.top
