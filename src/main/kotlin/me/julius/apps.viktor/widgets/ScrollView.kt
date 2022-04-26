@@ -8,10 +8,10 @@ import io.nacular.doodle.drawing.Canvas
 import io.nacular.doodle.event.PointerListener
 import io.nacular.doodle.geometry.Rectangle
 import io.nacular.doodle.utils.Orientation
-import kotlinx.browser.document
 import me.julius.apps.viktor.core.Context
 import me.julius.apps.viktor.core.drawBackgroundColor
 import me.julius.apps.viktor.core.mainScope
+import org.w3c.dom.events.WheelEvent
 import kotlin.math.max
 
 class ScrollView(
@@ -21,6 +21,7 @@ class ScrollView(
 ) : Container() {
     private var content: Container? = null
     private var onScroll: ((Double, Double) -> Unit)? = null
+    private var hadFocus: Boolean = false
     var scrollXRange = 0.0; private set
     var scrollYRange = 0.0; private set
     var scrollX = 0.0; private set
@@ -48,10 +49,25 @@ class ScrollView(
             rerender()
         }
         pointerChanged += PointerListener.entered {
-            document.onwheel = {
-                scrollBy(-it.deltaX, -it.deltaY)
-            }
+            hadFocus = true
         }
+        pointerChanged += PointerListener.exited {
+            hadFocus = false
+        }
+    }
+
+    private val onWheel = { e: WheelEvent ->
+        if (hadFocus) {
+            scrollBy(-e.deltaX, -e.deltaY)
+        }
+    }
+
+    override fun addedToDisplay() {
+        context.applicationContext.onWheel += onWheel
+    }
+
+    override fun removedFromDisplay() {
+        context.applicationContext.onWheel -= onWheel
     }
 
     override fun doLayout() {
