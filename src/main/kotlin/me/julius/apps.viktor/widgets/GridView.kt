@@ -19,8 +19,8 @@ class GridView<T>(
 ) : Container() {
     init {
         val rows = ceil(data.size.toDouble() / spanCount)
-        width = (itemSize * spanCount.toDouble() + spacing * (spanCount - 1.0)).width
-        height = (itemSize * rows + spacing * (rows - 1.0)).height
+        width = (itemSize * spanCount.toDouble() + spacing * (spanCount - 1.0)).width + insets.left + insets.right
+        height = (itemSize * rows + spacing * (rows - 1.0)).height + insets.top + insets.bottom
         data.forEachIndexed { index, item ->
             this@GridView += creator(index, item)
         }
@@ -28,8 +28,8 @@ class GridView<T>(
 
     override fun doLayout() {
         children.forEachIndexed { index, view ->
-            val x = index % spanCount * (itemSize.width + spacing.width)
-            val y = index / spanCount * (itemSize.height + spacing.height)
+            val x = index % spanCount * (itemSize.width + spacing.width) + insets.left
+            val y = index / spanCount * (itemSize.height + spacing.height) + insets.top
             view.bounds = Rectangle(Point(x, y), itemSize)
         }
     }
