@@ -5,7 +5,7 @@ import me.julius.apps.viktor.core.AutomaticFragment
 import me.julius.apps.viktor.core.PageContext
 import me.julius.apps.viktor.layout.LinearLayout
 
-class FooterFragment(context: PageContext) : AutomaticFragment(context, Width.MATCH_PARENT, Height.WRAP_CONTENT) {
+class FooterFragment(context: PageContext) : AutomaticFragment(context) {
     init {
         val featuresFragment = FeaturesFragment(context)
         val contactsFragment = ContactsFragment(context)

@@ -19,7 +19,12 @@ fun automaticContainer(
 }
 
 open class AutomaticContainer(val layoutParams: LayoutParams) : Container() {
-    constructor(width: Width, height: Height) : this(LayoutParams(width, height))
+    constructor(width: Width = Width.MATCH_PARENT, height: Height = Height.WRAP_CONTENT) : this(
+        LayoutParams(
+            width,
+            height
+        )
+    )
 
     init {
         val onBoundsChanged = { _: View, old: Rectangle, new: Rectangle ->

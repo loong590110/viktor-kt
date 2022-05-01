@@ -23,6 +23,10 @@ import me.julius.apps.viktor.core.hoverColor
 import me.julius.apps.viktor.layout.LinearLayout
 
 class HeaderFragment(context: PageContext, block: (Int) -> Unit) : Fragment(context) {
+    companion object {
+        val HEIGHT = 136.0.sp
+    }
+
     init {
         mainScope.launch {
             backgroundColor = Color.White opacity 0.8f

@@ -1,12 +1,12 @@
 package me.julius.apps.viktor.fragments
 
 import io.nacular.doodle.controls.text.Label
+import io.nacular.doodle.core.Container
 import io.nacular.doodle.core.container
 import io.nacular.doodle.core.plusAssign
 import io.nacular.doodle.drawing.Color
 import io.nacular.doodle.drawing.ColorPaint
 import io.nacular.doodle.event.PointerListener
-import io.nacular.doodle.geometry.Rectangle
 import io.nacular.doodle.geometry.Size
 import io.nacular.doodle.layout.Insets
 import io.nacular.doodle.text.StyledText
@@ -14,6 +14,7 @@ import io.nacular.doodle.utils.HorizontalAlignment
 import kotlinx.coroutines.launch
 import me.julius.apps.viktor.FONT_FAMILY
 import me.julius.apps.viktor.ViktorColors
+import me.julius.apps.viktor.ViktorColors.primaryDarkColor
 import me.julius.apps.viktor.core.AutoSize.sp
 import me.julius.apps.viktor.core.AutomaticFragment
 import me.julius.apps.viktor.core.PageContext
@@ -54,20 +55,24 @@ class CasesFragment(context: PageContext) : AutomaticFragment(context, Width.MAT
             ) { _, item ->
                 container {
                     mainScope.launch {
+                        val imageContainer = Container().apply {
+                            size = Size(itemWidth, itemHeight)
+                        } // 容器为动画特效而用（动画暂未添加）
                         val image = ImageView(imageLoader.load(item.image)!!).apply {
-                            bounds = Rectangle(0.0, 0.0, itemWidth, imageHeight)
+                            size = Size(itemWidth, itemHeight)
                         }
+                        imageContainer += image
                         val title = Label(
                             StyledText(
                                 item.title, fontLoader {
                                     size = 14.sp
                                     family = FONT_FAMILY
-                                }, foreground = ColorPaint(Color(ViktorColors.primaryDarkColor))
+                                }, foreground = ColorPaint(Color(primaryDarkColor))
                             )
                         )
-                        this@container += listOf(image, title)
+                        this@container += listOf(imageContainer, title)
                         this@container.pointerChanged += PointerListener.entered {
-                            // todo: 鼠标经过特效
+                            // todo: 鼠标经过动画特效
                         }
                         this@container.pointerChanged += PointerListener.exited {
                             // todo

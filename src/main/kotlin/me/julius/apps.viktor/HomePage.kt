@@ -30,19 +30,19 @@ class HomePage(context: PageContext) : Page(context) {
 
     init {
         val homeFragment: HomeFragment
-        val viewPager = ViewPager(
-            context, listOf(
-                HomeFragment(context).apply {
-                    setOnScrollListener { _, y ->
-                        shadow.visible = y != 0.0
-                    }
-                    homeFragment = this
-                },
-                AboutViktorFragment(context),
-                ProductsFragment(context),
-                ProjectCaseFragment(context),
-                ContactUsFragment(context)
-            )
+        val aboutViktorFragment: AboutViktorFragment
+        val viewPager = ViewPager(context, listOf(HomeFragment(context).apply {
+            setOnScrollListener { _, y ->
+                shadow.visible = y != 0.0
+            }
+            homeFragment = this
+        }, AboutViktorFragment(context).apply {
+            setOnScrollListener { _, y ->
+                shadow.visible = y != 0.0
+            }
+            aboutViktorFragment = this
+        }, ProductsFragment(context), ProjectCaseFragment(context), ContactUsFragment(context)
+        )
         )
         val header = HeaderFragment(context) {
             viewPager.currentItem = it
@@ -103,7 +103,10 @@ class HomePage(context: PageContext) : Page(context) {
                 nvCard.y = new.y - (nvCard.height - width) / 2 + width * 3 // 下移三格
             }
             setOnScrollTopListener {
-                homeFragment.scrollTop()
+                when (viewPager.currentItem) {
+                    0 -> homeFragment.scrollTop()
+                    1 -> aboutViktorFragment.scrollTop()
+                }
             }
         }
         this += listOf(viewPager, shadow, header, phCard, qqCard, qrCard, nvCard, floatMenu)
@@ -113,7 +116,7 @@ class HomePage(context: PageContext) : Page(context) {
             _viewPager.width = parent.width
             _viewPager.height = parent.height
             _header.width = parent.width
-            _header.height = constant(136.0.sp)
+            _header.height = constant(HeaderFragment.HEIGHT)
             _shadow.width = parent.width
             _shadow.height = _header.height + shadowHeight * 2
         }

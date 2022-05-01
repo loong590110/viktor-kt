@@ -7,7 +7,11 @@ import kotlinx.coroutines.CoroutineScope
 open class AutomaticFragment(
     private val context: PageContext, params: LayoutParams
 ) : AutomaticContainer(params), Context {
-    constructor(context: PageContext, width: Width, height: Height) : this(context, LayoutParams(width, height))
+    constructor(
+        context: PageContext, width: Width = Width.MATCH_PARENT, height: Height = Height.WRAP_CONTENT
+    ) : this(
+        context, LayoutParams(width, height)
+    )
 
     override val applicationContext: ApplicationContext get() = context.applicationContext
     override val mainScope: CoroutineScope get() = context.mainScope

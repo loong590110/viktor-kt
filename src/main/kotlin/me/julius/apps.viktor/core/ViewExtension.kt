@@ -80,22 +80,22 @@ class ViewPropertyAnimator(private val view: View, private val animator: Animato
     }
 
     fun scaleX(x: Double): ViewPropertyAnimator {
-        scaleX = x
+        scaleX = x * view.width
         return this
     }
 
     fun scaleXBy(x: Double): ViewPropertyAnimator {
-        scaleX += x
+        scaleX = (x + 1) * view.width
         return this
     }
 
     fun scaleY(y: Double): ViewPropertyAnimator {
-        scaleY = y
+        scaleY = y * view.height
         return this
     }
 
     fun scaleYBy(y: Double): ViewPropertyAnimator {
-        scaleY += y
+        scaleY += (y + 1) * view.height
         return this
     }
 
@@ -123,12 +123,10 @@ class ViewPropertyAnimator(private val view: View, private val animator: Animato
                 var y: Double = startY
                 var w: Double = startW
                 var h: Double = startH
-                when {
-                    xOffset != 0.0 -> x += xOffset * it
-                    yOffset != 0.0 -> y += yOffset * it
-                    wOffset != 0.0 -> w += wOffset * it
-                    hOffset != 0.0 -> h += hOffset * it
-                }
+                if (xOffset != 0.0) x += xOffset * it
+                if (yOffset != 0.0) y += yOffset * it
+                if (wOffset != 0.0) w += wOffset * it
+                if (hOffset != 0.0) h += hOffset * it
                 view.bounds = Rectangle(x, y, w, h)
             }.also {
                 it.completed += {
