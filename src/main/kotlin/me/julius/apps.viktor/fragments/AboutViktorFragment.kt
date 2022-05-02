@@ -15,7 +15,6 @@ import me.julius.apps.viktor.ViktorColors.primaryDarkColor
 import me.julius.apps.viktor.core.AutoSize.sp
 import me.julius.apps.viktor.core.AutomaticFragment
 import me.julius.apps.viktor.core.PageContext
-import me.julius.apps.viktor.core.imageLoader
 import me.julius.apps.viktor.widgets.ImageView
 import me.julius.apps.viktor.widgets.ScrollView
 
@@ -25,7 +24,7 @@ class AboutViktorFragment(context: PageContext) : AutomaticFragment(context, hei
 
     init {
         scrollView = ScrollView(context) {
-            val banner = ImageView(imageLoader.load("images/bg_about_viktor.jpg")!!)
+            val banner = ImageView(context, "images/bg_about_viktor.jpg")
             val title = Label(
                 StyledText("ABOUT US", fontLoader {
                     size = 24.sp
@@ -43,7 +42,7 @@ class AboutViktorFragment(context: PageContext) : AutomaticFragment(context, hei
             val logisticsSpacing = 40.0.sp
             val logisticsWidth = ServicesFragment.CONTENT_WIDTH / 2.0 - logisticsSpacing / 2.0
             val logisticsHeight = logisticsWidth * 573.0 / 800.0
-            val logistics = ImageView(imageLoader.load("images/logistics.png")!!)
+            val logistics = ImageView(context, "images/logistics.png")
             val pTitle = Label(
                 StyledText("Viktor Rack & Warehouse Equipment Manufacturing Co., Ltd", fontLoader {
                     size = 18.sp

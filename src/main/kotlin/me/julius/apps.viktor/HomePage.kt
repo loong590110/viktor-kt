@@ -31,6 +31,9 @@ class HomePage(context: PageContext) : Page(context) {
     init {
         val homeFragment: HomeFragment
         val aboutViktorFragment: AboutViktorFragment
+        val productsFragment: ProductsFragment
+        val projectCaseFragment: ProjectCaseFragment
+        val contactUsFragment: ContactUsFragment
         val viewPager = ViewPager(context, listOf(HomeFragment(context).apply {
             setOnScrollListener { _, y ->
                 shadow.visible = y != 0.0
@@ -41,9 +44,22 @@ class HomePage(context: PageContext) : Page(context) {
                 shadow.visible = y != 0.0
             }
             aboutViktorFragment = this
-        }, ProductsFragment(context), ProjectCaseFragment(context), ContactUsFragment(context)
-        )
-        )
+        }, ProductsFragment(context).apply {
+            setOnScrollListener { _, y ->
+                shadow.visible = y != 0.0
+            }
+            productsFragment = this
+        }, ProjectCaseFragment(context).apply {
+            setOnScrollListener { _, y ->
+                shadow.visible = y != 0.0
+            }
+            projectCaseFragment = this
+        }, ContactUsFragment(context).apply {
+            setOnScrollListener { _, y ->
+                shadow.visible = y != 0.0
+            }
+            contactUsFragment = this
+        }))
         val header = HeaderFragment(context) {
             viewPager.currentItem = it
         }
@@ -106,6 +122,9 @@ class HomePage(context: PageContext) : Page(context) {
                 when (viewPager.currentItem) {
                     0 -> homeFragment.scrollTop()
                     1 -> aboutViktorFragment.scrollTop()
+                    2 -> productsFragment.scrollTop()
+                    3 -> projectCaseFragment.scrollTop()
+                    4 -> contactUsFragment.scrollTop()
                 }
             }
         }

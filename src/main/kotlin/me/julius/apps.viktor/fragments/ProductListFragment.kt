@@ -22,10 +22,10 @@ import me.julius.apps.viktor.layout.LinearLayout
 import me.julius.apps.viktor.widgets.GridView
 import me.julius.apps.viktor.widgets.ImageView
 
-class CasesFragment(context: PageContext) : AutomaticFragment(context, Width.MATCH_PARENT, Height.WRAP_CONTENT) {
+class ProductListFragment(context: PageContext) : AutomaticFragment(context, Width.MATCH_PARENT, Height.WRAP_CONTENT) {
     init {
         mainScope(context) {
-            val txtTitle = Label(StyledText("—  CASE SHOW  —", fontLoader {
+            val txtTitle = Label(StyledText("—  PRODUCT CENTER  —", fontLoader {
                 size = 30.sp
                 family = FONT_FAMILY
             }, foreground = ColorPaint(Color(primaryDarkColor))))
@@ -39,16 +39,24 @@ class CasesFragment(context: PageContext) : AutomaticFragment(context, Width.MAT
             )
             val totalWidth = ServicesFragment.CONTENT_WIDTH
             val spanCount = 4
-            val spacing = Size(15.0.sp)
+            val spacing = Size(15.0.sp, 25.0.sp)
             val itemWidth = (totalWidth - (spanCount - 1) * spacing.width) / spanCount
             val imageHeight = 190.0.sp
             val itemHeight = imageHeight + 26.0.sp
             val gridView = GridView(
                 spanCount = spanCount, itemSize = Size(itemWidth, itemHeight), spacing = spacing, data = listOf(
-                    Item("images/case1.jpg", "Case show temporary replacement"),
-                    Item("images/case2.jpg", "Case show temporary replacement"),
-                    Item("images/case3.jpg", "Case show temporary replacement"),
-                    Item("images/case4.jpg", "Case show temporary replacement"),
+                    Item("images/product1.jpg", "Light duty Racking"),
+                    Item("images/product2.jpg", "Medium duty Racking-Type A"),
+                    Item("images/product3.jpg", "Medium duty Racking-Type B"),
+                    Item("images/product4.jpg", "Heavy duty Pallet racking"),
+                    Item("images/product5.jpg", "File Compactor"),
+                    Item("images/product6.jpg", "Cantilever Racking"),
+                    Item("images/product7.jpg", "Mezzanine Racking"),
+                    Item("images/product8.jpg", "Steel Structure Platform"),
+                    Item("images/product9.jpg", "Two-way steel fork tray"),
+                    Item("images/product10.jpg", "Steel four - way into the fork tray"),
+                    Item("images/product11.jpg", "Plastic four-way into the fork single-sided use of the tray"),
+                    Item("images/product12.jpg", "4-way into the use of double-sided tray"),
                 )
             ) { _, item ->
                 container {
@@ -62,10 +70,12 @@ class CasesFragment(context: PageContext) : AutomaticFragment(context, Width.MAT
                         imageContainer += image
                         val title = Label(
                             StyledText(
-                                item.title, fontLoader {
+                                item.title.takeIf { it.length > 48 }?.take(48)?.let { "$it..." } ?: item.title,
+                                fontLoader {
                                     size = 14.sp
                                     family = FONT_FAMILY
-                                }, foreground = ColorPaint(Color(primaryDarkColor))
+                                },
+                                foreground = ColorPaint(Color(primaryDarkColor))
                             )
                         )
                         this@container += listOf(imageContainer, title)
@@ -81,7 +91,7 @@ class CasesFragment(context: PageContext) : AutomaticFragment(context, Width.MAT
             }.apply {
                 insets = Insets(20.0.sp, 0.0, 0.0, 0.0)
             }
-            this@CasesFragment += listOf(txtTitle, txtSubtitle, gridView)
+            this@ProductListFragment += listOf(txtTitle, txtSubtitle, gridView)
             layout = LinearLayout(
                 horizontalAlignment = HorizontalAlignment.Center, spacing = 10.0.sp
             )

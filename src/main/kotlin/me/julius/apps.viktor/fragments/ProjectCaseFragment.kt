@@ -1,18 +1,40 @@
 package me.julius.apps.viktor.fragments
 
-import io.nacular.doodle.controls.text.Label
+import io.nacular.doodle.core.Layout
 import io.nacular.doodle.core.plusAssign
-import io.nacular.doodle.utils.HorizontalAlignment
-import io.nacular.doodle.utils.VerticalAlignment
-import me.julius.apps.viktor.core.Fragment
+import io.nacular.doodle.geometry.Rectangle
+import io.nacular.doodle.geometry.Size
+import me.julius.apps.viktor.core.AutoSize.sp
+import me.julius.apps.viktor.core.AutomaticFragment
 import me.julius.apps.viktor.core.PageContext
-import me.julius.apps.viktor.layout.LinearLayout
+import me.julius.apps.viktor.widgets.ImageView
+import me.julius.apps.viktor.widgets.ScrollView
 
-class ProjectCaseFragment(context: PageContext) : Fragment(context) {
+class ProjectCaseFragment(context: PageContext) : AutomaticFragment(context, height = Height.MATCH_PARENT) {
+    private var onScroll: ((Double, Double) -> Unit)? = null
+    private val scrollView: ScrollView
+
     init {
-        this += Label("PROJECT CASE")
-        layout = LinearLayout(
-            horizontalAlignment = HorizontalAlignment.Center, verticalAlignment = VerticalAlignment.Middle
-        )
+        scrollView = ScrollView(context) {
+            val banner = ImageView(context, "images/bg_about_viktor.jpg#project")
+            this@ScrollView += listOf(banner)
+            this@ScrollView.layout = Layout.simpleLayout {
+                banner.bounds = Rectangle(0.0, HeaderFragment.HEIGHT, width, 300.0.sp)
+            }
+        }.apply {
+            setOnScrollListener { x, y ->
+                onScroll?.invoke(x, y)
+            }
+        }
+        this@ProjectCaseFragment += scrollView
+        this@ProjectCaseFragment.layout = Layout.simpleLayout { scrollView.size = Size(width, height) }
+    }
+
+    fun setOnScrollListener(block: (Double, Double) -> Unit) {
+        onScroll = block
+    }
+
+    fun scrollTop() {
+        scrollView.scrollTo(0.0, 0.0)
     }
 }

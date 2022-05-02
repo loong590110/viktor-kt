@@ -18,7 +18,6 @@ import me.julius.apps.viktor.ViktorColors.primaryDarkColor
 import me.julius.apps.viktor.core.AutoSize.sp
 import me.julius.apps.viktor.core.AutomaticFragment
 import me.julius.apps.viktor.core.PageContext
-import me.julius.apps.viktor.core.imageLoader
 import me.julius.apps.viktor.core.mainScope
 import me.julius.apps.viktor.layout.LinearLayout
 import me.julius.apps.viktor.widgets.GridView
@@ -44,7 +43,7 @@ class FeaturesFragment(context: PageContext) : AutomaticFragment(context, Width.
             ) { _, item ->
                 container {
                     mainScope.launch {
-                        val image = ImageView(imageLoader.load(item.image)!!).apply {
+                        val image = ImageView(context, item.image).apply {
                             bounds = Rectangle(0.0, 0.0, itemHeight, itemHeight)
                         }
                         val title = Label(

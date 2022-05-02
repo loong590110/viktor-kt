@@ -45,7 +45,7 @@ class ConceptFragment(context: PageContext) : AutomaticFragment(context, Width.M
             ) { _, item ->
                 container {
                     mainScope.launch {
-                        val image = ImageView(imageLoader.load(item.image)!!).apply {
+                        val image = ImageView(context, item.image).apply {
                             bounds = Rectangle(1.0, 1.0, imageWidth - 2, imageHeight - 2)
                         }
                         val title = Label(

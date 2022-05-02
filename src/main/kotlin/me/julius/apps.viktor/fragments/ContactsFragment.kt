@@ -18,7 +18,6 @@ import me.julius.apps.viktor.ViktorColors.thirdDarkColor
 import me.julius.apps.viktor.core.AutoSize.sp
 import me.julius.apps.viktor.core.AutomaticFragment
 import me.julius.apps.viktor.core.PageContext
-import me.julius.apps.viktor.core.imageLoader
 import me.julius.apps.viktor.core.mainScope
 import me.julius.apps.viktor.layout.LinearLayout
 import me.julius.apps.viktor.widgets.ImageView
@@ -29,8 +28,8 @@ class ContactsFragment(context: PageContext) : AutomaticFragment(context, Width.
         this@ContactsFragment += container {
             mainScope(context) {
                 this@container.size = Size(ServicesFragment.CONTENT_WIDTH, 150.0.sp)
-                val phone = ImageView(imageLoader.load("images/phone.png")!!)
-                val wechat = ImageView(imageLoader.load("images/qrcode.jpg#footer")!!) // 附加信息以以区分key来创建新实例
+                val phone = ImageView(context, "images/phone.png")
+                val wechat = ImageView(context, "images/qrcode.jpg#footer") // 附加信息以以区分key来创建新实例
                 val title = Label(
                     StyledText(
                         "24-hour service hotline:", fontLoader {
