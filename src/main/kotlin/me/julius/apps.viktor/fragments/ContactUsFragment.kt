@@ -65,7 +65,7 @@ class ContactUsFragment(context: PageContext) : AutomaticFragment(context, heigh
             val qrcode = ImageView(context, "images/qrcode.jpg").apply {
                 size = Size(120.0.sp)
             }
-            val baiduMap = webview("BaiduMap").apply {
+            val baiduMap = webview("BaiduMap.html").apply {
                 size = Size(CONTENT_WIDTH, 260.0.sp)
             }
             val footerFragment = FooterFragment(context)
