@@ -16,7 +16,7 @@ class ContactUsFragment(context: PageContext) : AutomaticFragment(context, heigh
 
     init {
         scrollView = ScrollView(context) {
-            val banner = ImageView(context, "images/bg_about_viktor.jpg#contact")
+            val banner = ImageView(context, "images/bg_contact_us.jpg")
             this@ScrollView += listOf(banner)
             this@ScrollView.layout = Layout.simpleLayout {
                 banner.bounds = Rectangle(0.0, HeaderFragment.HEIGHT, width, 300.0.sp)

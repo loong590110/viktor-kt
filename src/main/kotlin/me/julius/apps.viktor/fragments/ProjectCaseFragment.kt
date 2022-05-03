@@ -16,10 +16,24 @@ class ProjectCaseFragment(context: PageContext) : AutomaticFragment(context, hei
 
     init {
         scrollView = ScrollView(context) {
-            val banner = ImageView(context, "images/bg_about_viktor.jpg#project")
-            this@ScrollView += listOf(banner)
+            val banner = ImageView(context, "images/bg_project_case.jpg")
+            val importColumnFragment = ImportColumnFragment(context)
+            val importedCommodityFragment = ImportedCommodityFragment(context)
+            val importServicesFragment = ImportServicesFragment(context)
+            val footerFragment = FooterFragment(context)
+            this@ScrollView += listOf(
+                banner,
+                importColumnFragment,
+                importedCommodityFragment,
+                importServicesFragment,
+                footerFragment
+            )
             this@ScrollView.layout = Layout.simpleLayout {
                 banner.bounds = Rectangle(0.0, HeaderFragment.HEIGHT, width, 300.0.sp)
+                importColumnFragment.y = banner.bounds.bottom + 50.0.sp
+                importedCommodityFragment.y = importColumnFragment.bounds.bottom + 50.0.sp
+                importServicesFragment.y = importedCommodityFragment.bounds.bottom + 50.0.sp
+                footerFragment.y = importServicesFragment.bounds.bottom + 50.0.sp
             }
         }.apply {
             setOnScrollListener { x, y ->

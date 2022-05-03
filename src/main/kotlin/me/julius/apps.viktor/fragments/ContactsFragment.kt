@@ -32,7 +32,7 @@ class ContactsFragment(context: PageContext) : AutomaticFragment(context, Width.
                 val wechat = ImageView(context, "images/qrcode.jpg#footer") // 附加信息以以区分key来创建新实例
                 val title = Label(
                     StyledText(
-                        "24-hour service hotline:", fontLoader {
+                        "24-hour service hotline: ", fontLoader {
                             size = 16.sp
                             family = FONT_FAMILY
                         }, foreground = ColorPaint(Color(thirdDarkColor))

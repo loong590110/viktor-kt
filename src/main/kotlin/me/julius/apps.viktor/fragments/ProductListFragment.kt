@@ -22,7 +22,7 @@ import me.julius.apps.viktor.layout.LinearLayout
 import me.julius.apps.viktor.widgets.GridView
 import me.julius.apps.viktor.widgets.ImageView
 
-class ProductListFragment(context: PageContext) : AutomaticFragment(context, Width.MATCH_PARENT, Height.WRAP_CONTENT) {
+class ProductListFragment(context: PageContext) : AutomaticFragment(context) {
     init {
         mainScope(context) {
             val txtTitle = Label(StyledText("—  PRODUCT CENTER  —", fontLoader {

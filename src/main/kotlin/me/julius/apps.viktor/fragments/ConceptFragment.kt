@@ -19,7 +19,6 @@ import me.julius.apps.viktor.ViktorColors
 import me.julius.apps.viktor.core.AutoSize.sp
 import me.julius.apps.viktor.core.AutomaticFragment
 import me.julius.apps.viktor.core.PageContext
-import me.julius.apps.viktor.core.imageLoader
 import me.julius.apps.viktor.core.mainScope
 import me.julius.apps.viktor.layout.LinearLayout
 import me.julius.apps.viktor.widgets.GridView
