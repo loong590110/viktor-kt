@@ -27,7 +27,7 @@ open class AutomaticContainer(val layoutParams: LayoutParams) : Container() {
     )
 
     init {
-        val onBoundsChanged = { _: View, old: Rectangle, new: Rectangle ->
+        val onBoundsChanged = { _: View, _: Rectangle, new: Rectangle ->
             if (layoutParams.width == Width.MATCH_PARENT && new.width != width) {
                 width = new.width
             }

@@ -7,6 +7,7 @@ import io.nacular.doodle.drawing.Color
 import io.nacular.doodle.drawing.ColorPaint
 import io.nacular.doodle.drawing.opacity
 import io.nacular.doodle.event.PointerListener
+import io.nacular.doodle.geometry.Rectangle
 import io.nacular.doodle.layout.constrain
 import io.nacular.doodle.text.StyledText
 import io.nacular.doodle.utils.HorizontalAlignment
@@ -39,8 +40,9 @@ class HeaderFragment(context: PageContext, block: (Int) -> Unit) : Fragment(cont
                 )
             )
             val tabMenu = container {
+                var curIndex = 0
                 listOf("HOME", "ABOUT VIKTOR", "PRODUCTS", "PROJECT CASE", "CONTACT US").forEachIndexed { index, text ->
-                    mainScope.launch { // FIXME: 实例化控件依赖协程的设计有缺陷, 造成刷新页面时局部闪烁
+                    mainScope.launch {
                         this@container += Label(
                             StyledText(
                                 text, fontLoader {
@@ -51,6 +53,8 @@ class HeaderFragment(context: PageContext, block: (Int) -> Unit) : Fragment(cont
                         ).apply {
                             hoverColor = Color(primaryColor)
                             pointerChanged += PointerListener.clicked {
+                                curIndex = index
+                                this@container.rerender()
                                 block(index)
                             }
                         }
@@ -61,6 +65,13 @@ class HeaderFragment(context: PageContext, block: (Int) -> Unit) : Fragment(cont
                     horizontalAlignment = HorizontalAlignment.Center,
                     verticalAlignment = VerticalAlignment.Middle
                 )
+                render = lambda@{
+                    if (this@container.children.size <= curIndex) {
+                        return@lambda
+                    }
+                    val tab = this@container.children[curIndex]
+                    rect(Rectangle(tab.x, height - 2.0.sp, tab.width, 2.0.sp), fill = ColorPaint(Color(primaryColor)))
+                }
             }
             this@HeaderFragment += listOf(txtTitle, tabMenu)
             layout = constrain(txtTitle, tabMenu) { _txtTitle, _tabMenu ->

@@ -1,0 +1,124 @@
+<style>
+    .BMap_bubble_title {
+        font-size: 14px;
+    }
+
+    .BMap_bubble_content, .BMap_bubble_max_content {
+        font-size: 12px;
+    }
+</style>
+<div id="allmap" style="height: 100%; width: 100%;"></div>
+
+<script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak=CxefYSedmmxgGGLnSa7uz6KaybW74zqF"></script>
+<script type="text/javascript">
+    var ShowMapType="on";
+    var ShowNavigation="on";
+    var ShowMarker="on";
+    var MapLanguage = "";
+    var MapStyle = "normal"
+    var baiduMapControlId = '';
+    var toolBar;
+    var map;
+    var marker = [{"ItemTitle":"","ItemDetail":"","ProvinceName":"江苏省","CityName":"南京市","Content":"","AdressDetail":"苏源大道10号","DisplayOrder":1,"MapSelectType":"0"}];
+    var index = 0;
+    var myGeo = new BMap.Geocoder();
+    var lastPoint;
+    function init(){
+       // 百度地图API功能
+	    map = new BMap.Map("allmap");    // 创建Map实例
+        map.centerAndZoom(new BMap.Point(116.404, 39.915), parseInt("15"));  // 初始化地图,设置中心点坐标和地图级别
+        map.setMapStyle({ style: 'normal' });
+        if (ShowNavigation == "on")
+        {
+            map.addControl(new BMap.NavigationControl());   //添加地图类型控件
+        }
+
+        if (ShowMapType == "on")
+        {
+            map.addControl(new BMap.MapTypeControl());   //添加地图类型控件
+        }
+        bdGEO();
+	    map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
+    }
+    function bdGEO() {
+        if (typeof marker != 'undefined')
+        {
+            for (index = 0; index < marker.length; index++) {
+                var addressDetail = marker[index].AdressDetail;
+                var cityName = marker[index].CityName;
+                var itemTitle = marker[index].ItemTitle;
+                var itemDetail = marker[index].ItemDetail;
+                geocodeSearch(cityName, addressDetail, itemTitle, itemDetail);
+            }
+        }
+    }
+
+
+    function geocodeSearch(cityName, addressDetail, itemTitle, itemDetail) {
+        myGeo.getPoint(addressDetail, function (point) {
+            if (point) {
+                var point = new BMap.Point(point.lng, point.lat);
+                addMarker(point, itemTitle, itemDetail);
+            }
+        }, cityName);
+    }
+    // 编写自定义函数,创建标注
+    function addMarker(point, itemTitle, itemDetail) {
+        var marker = new BMap.Marker(point);
+        map.addOverlay(marker);
+        lastPoint = point;
+        map.panTo(point);
+
+        var opts = {
+            width: 300,     // 信息窗口宽度
+         //   height: auto,     // 信息窗口高度
+            title: itemTitle, // 信息窗口标题
+            enableMessage: true,//设置允许信息窗发送短息
+            message: itemDetail
+        }
+        var infoWindow = new BMap.InfoWindow(itemDetail, opts);  // 创建信息窗口对象
+        marker.addEventListener("click", function () {
+            map.openInfoWindow(infoWindow, point); //开启信息窗口
+        });
+    }
+
+    //地理编码返回结果展示
+    function geocoder_CallBack(data,addressItemId) {
+        var resultStr = "";
+        //地理编码结果数组
+        var geocode = new Array();
+        geocode = data.geocodes;
+        if (geocode.length > 0) {
+            addmarker(0, geocode[0],addressItemId);
+        }
+        mapObj.setFitView();
+    }
+    function keywordSearch_CallBack(data,addressItemId) {
+        var poiArr = data.poiList.pois;
+        var resultCount = poiArr.length;
+        if (resultCount > 0) {
+            for (var i = 0; i < resultCount; i++) {
+                addmarker(i, poiArr[i],addressItemId);
+                break; // 只取第一条查询到的记录显示
+            }
+            mapObj.setFitView();
+        }
+    }
+
+    var hack;
+    (function() {
+        init();
+        hack = setInterval(function() {
+            if ($("#allmap").is(":visible")) {
+                moveToCenter();
+                clearInterval(hack);
+            }
+        },1000);
+    })();
+    function moveToCenter()
+    {
+        if (typeof lastPoint != 'undefined') {
+            map.panTo(lastPoint);
+        }
+    }
+</script>

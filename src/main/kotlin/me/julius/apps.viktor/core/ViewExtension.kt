@@ -14,7 +14,6 @@ import io.nacular.doodle.drawing.ColorPaint
 import io.nacular.doodle.event.PointerEvent
 import io.nacular.doodle.event.PointerListener
 import io.nacular.doodle.geometry.Rectangle
-import io.nacular.doodle.geometry.Size
 import io.nacular.doodle.text.StyledText
 import io.nacular.measured.units.Measure
 import io.nacular.measured.units.Time

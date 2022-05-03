@@ -12,6 +12,7 @@ fun main() {
             Modules.PointerModule,
             Modules.FontModule,
             Modules.ImageModule,
+            Modules.UrlViewModule,
             ViktorTheme.ViktorTheme,
             ViktorModules.AnimatorModule
         ) + BasicTheme.basicThemeBehaviors + ViktorTheme.autoSizeLabelBehavior()
